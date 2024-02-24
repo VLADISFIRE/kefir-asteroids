@@ -1,0 +1,17 @@
+{
+    "name": "Initializers.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d285aecac5184e70b738475dd14bec00",
+        "GUID:7e6c7b5915114573b2b622ecf10da406"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
