@@ -29,9 +29,14 @@
             return entity.index == index;
         }
 
+        public bool IsAlive()
+        {
+            return index >= 0;
+        }
+
         public override string ToString()
         {
-            return index >= 0 ? $"Entity [ {index} ]" : $"Entity [ null ]"; 
+            return IsAlive() ? $"Entity [ {index} ]" : $"Entity [ null ]"; 
         }
     }
 }

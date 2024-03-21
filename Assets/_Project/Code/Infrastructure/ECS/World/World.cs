@@ -56,7 +56,7 @@ namespace Infrastructure.ECS
 
         internal bool IsAlive(int index)
         {
-            return _pool[index].index >= 0;
+            return _pool[index].IsAlive();
         }
 
         private void OnResized(int capacity)
