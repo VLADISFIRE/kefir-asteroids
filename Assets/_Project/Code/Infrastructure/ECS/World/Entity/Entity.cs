@@ -29,7 +29,7 @@
             return entity.index == index;
         }
 
-        public bool IsAlive()
+        internal bool IsAlive()
         {
             return index >= 0;
         }

@@ -1,5 +1,4 @@
 ﻿using Infrastructure.ECS;
-using UnityEngine;
 
 namespace Gameplay
 {
@@ -9,7 +8,7 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<RocketTag, MovementComponent>().Build(out _mask);
+            Mask<RocketEngineComponent, MovementComponent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)

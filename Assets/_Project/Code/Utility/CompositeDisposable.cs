@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Game.Utility
+namespace Utility
 {
     public abstract class CompositeDisposable : IDisposable
     {

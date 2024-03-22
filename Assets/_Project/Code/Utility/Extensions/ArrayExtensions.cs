@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Game.Utility
+namespace Utility
 {
     public static class ArrayExtensions
     {

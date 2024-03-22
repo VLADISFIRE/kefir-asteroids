@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Utility;
+using Utility;
 using UnityEngine;
 
 namespace Infrastructure

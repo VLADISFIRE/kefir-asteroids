@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Utility
+namespace Utility
 {
     public abstract class StaticWrapper<T> where T : class
     {

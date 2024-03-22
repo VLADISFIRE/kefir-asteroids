@@ -34,16 +34,15 @@ namespace Initializers.Gameplay
 
             ecsManager
                .AddSystem<PhysicsSystem>()
-               .AddSystem<RocketFrictionSystem>()
                .AddSystem<MovementSystem>();
 
             ecsManager
                .AddSystem<RocketEngineSystem>()
-               .AddSystem<RocketRotateControlSystem>();
+               .AddSystem<RocketRotateControlSystem>()
+               .AddSystem<RocketFrictionSystem>();
 
             ecsManager
-               .AddSystem<RocketRenderSystem>()
-               .AddSystem<AsteroidRenderSystem>();
+               .AddSystem<SpriteRendererSystem>();
 
             ecsManager
                .AddSystem<ScreenPortalSystem>();

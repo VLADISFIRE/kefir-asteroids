@@ -95,10 +95,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8625366607089524825}
-  - component: {fileID: -5902059074226957488}
   - component: {fileID: 63718642051252197}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,19 +119,6 @@ Transform:
   - {fileID: 802570142661701114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5902059074226957488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7701575966430268166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4943f2d35e9543a58eb84d9ff4a38e02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 63718642051252197}
 --- !u!212 &63718642051252197
 SpriteRenderer:
   m_ObjectHideFlags: 0

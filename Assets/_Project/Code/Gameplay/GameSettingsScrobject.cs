@@ -1,5 +1,4 @@
 ﻿using System;
-using Gameplay.Render;
 using UnityEngine;
 
 namespace Gameplay
@@ -14,8 +13,7 @@ namespace Gameplay
     [Serializable]
     public class PlayerSettings
     {
-        public PlayerView prefab;
-
+        public Sprite sprite;
         public RocketSettings rocket;
     }
 
@@ -25,10 +23,11 @@ namespace Gameplay
         public float enginePower = 500;
         public float rotateSpeed = 2;
     }
-    
+
     [Serializable]
     public class SpawnerSettings
     {
         public float delay = 5;
+        public Sprite asteroid;
     }
 }

@@ -62,7 +62,7 @@ namespace Infrastructure.ECS
 
             foreach (var e in _exclude)
             {
-                hash += e;
+                hash -= e;
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game.Utility
+namespace Utility
 {
     public static class StringUtility
     {
