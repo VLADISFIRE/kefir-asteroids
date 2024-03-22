@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class PlayerInitSystem : BaseSystem
+    public class RocketSpawnSystem : BaseSystem
     {
         private GameSettingsScrobject _settings;
         private GameInput _gameInput;
 
-        public PlayerInitSystem(GameSettingsScrobject settings, GameInput gameInput)
+        public RocketSpawnSystem(GameSettingsScrobject settings, GameInput gameInput)
         {
             _gameInput = gameInput;
             _settings = settings;
@@ -16,8 +16,21 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            ref var rocket = ref _world.NewEntity();
+            CreateRocket();
+            CreateAsteroid();
+            
+            _gameInput.Enable();
+        }
 
+        protected override void OnDispose()
+        {
+            _gameInput.Disable();
+        }
+
+        private void CreateRocket()
+        {
+            ref var rocket = ref _world.NewEntity();
+            
             rocket.AddComponent<RocketTag>();
 
             rocket.SetComponent(new TransformComponent
@@ -37,13 +50,24 @@ namespace Gameplay
             {
                 speed = _settings.player.rocket.rotateSpeed,
             });
-
-            _gameInput.Enable();
         }
 
-        protected override void OnDispose()
+        private void CreateAsteroid()
         {
-            _gameInput.Disable();
+            ref var asteroid = ref _world.NewEntity();
+            
+            asteroid.AddComponent<AsteroidTag>();
+
+            asteroid.SetComponent(new TransformComponent
+            {
+                position = Vector2.zero,
+                rotation = Vector2.up
+            });
+            
+            asteroid.SetComponent(new MovementComponent
+            {
+                velocity = new Vector2(2,2)
+            });
         }
     }
 }

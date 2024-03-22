@@ -1,4 +1,5 @@
 ﻿using Infrastructure.ECS;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -15,11 +16,11 @@ namespace Gameplay
         {
             foreach (var entity in _mask)
             {
-                ref var velocity = ref entity.GetComponent<MovementComponent>();
+                ref var movement = ref entity.GetComponent<MovementComponent>();
 
-                if (velocity.velocity.magnitude <= 0) return;
+                if (movement.velocity.magnitude <= 0) return;
 
-                velocity.velocity -= velocity.velocity * deltaTime;
+                movement.velocity -= movement.velocity * deltaTime;
             }
         }
     }

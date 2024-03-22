@@ -2,13 +2,13 @@
 
 namespace Gameplay
 {
-    public class PlayerInputSystem : BaseSystem
+    public class RocketInputSystem : BaseSystem
     {
         private GameInput.PlayerActions _input;
 
         private Mask _mask;
 
-        public PlayerInputSystem(GameInput input)
+        public RocketInputSystem(GameInput input)
         {
             _input = input.Player;
         }

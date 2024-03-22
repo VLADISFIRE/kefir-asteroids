@@ -13,12 +13,9 @@ namespace Initializers.Gameplay
         private const string CONFIG_PATH = "GameSettings";
 
         private Scope _scope;
-        private IEcsManager _ecsManager;
 
         public GameplayInitializer(Scope scope, IEcsManager ecsManager)
         {
-            _ecsManager = ecsManager;
-
             _scope = new Scope(scope);
 
             var cameraObj = GameObject.FindGameObjectWithTag(CAMERA_TAG);
@@ -31,23 +28,24 @@ namespace Initializers.Gameplay
             var settings = Resources.Load<GameSettingsScrobject>(CONFIG_PATH);
             scope.RegisterInstance(settings);
 
-            _ecsManager
-               .AddSystem<PlayerInitSystem>()
-               .AddSystem<PlayerInputSystem>();
+            ecsManager
+               .AddSystem<RocketSpawnSystem>()
+               .AddSystem<RocketInputSystem>();
 
-            _ecsManager
+            ecsManager
                .AddSystem<PhysicsSystem>()
                .AddSystem<RocketFrictionSystem>()
                .AddSystem<MovementSystem>();
 
-            _ecsManager
+            ecsManager
                .AddSystem<RocketEngineSystem>()
                .AddSystem<RocketRotateControlSystem>();
 
-            _ecsManager
-               .AddSystem<RocketRenderSystem>();
+            ecsManager
+               .AddSystem<RocketRenderSystem>()
+               .AddSystem<AsteroidRenderSystem>();
 
-            _ecsManager
+            ecsManager
                .AddSystem<ScreenPortalSystem>();
         }
     }
