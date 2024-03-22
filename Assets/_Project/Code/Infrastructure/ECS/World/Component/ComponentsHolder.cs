@@ -101,7 +101,7 @@ namespace Infrastructure.ECS
 
         public bool Has(int id)
         {
-            return GetIndex(id) > 0;
+            return _ids[id] > 0;
         }
 
         internal bool Remove(int id)

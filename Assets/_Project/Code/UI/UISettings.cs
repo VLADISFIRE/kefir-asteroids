@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.UI
+namespace UI
 {
     [CreateAssetMenu(menuName = "Game/UI/Settings", fileName = "UISettings")]
     public class UISettingsScrobject : ScriptableObject

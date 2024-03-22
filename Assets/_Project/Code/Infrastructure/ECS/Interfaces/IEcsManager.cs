@@ -2,7 +2,7 @@
 {
     public interface IEcsManager
     {
-        public void AddSystem<T>() where T : BaseSystem;
-        public void RemoveSystem<T>() where T : BaseSystem;
+        public IEcsManager AddSystem<T>() where T : BaseSystem;
+        public IEcsManager RemoveSystem<T>() where T : BaseSystem;
     }
 }

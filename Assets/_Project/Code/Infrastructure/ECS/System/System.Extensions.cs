@@ -20,6 +20,8 @@
         public static void Update(this Systems systems, float deltaTime)
         {
             systems.Update(deltaTime);
+
+            systems.LateUpdate();
         }
     }
 }

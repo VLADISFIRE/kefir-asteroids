@@ -12,7 +12,8 @@ namespace Infrastructure.DI
     {
         private Scope _parent;
 
-        private readonly Dictionary<Type, object> _objects = new();
+        private Dictionary<Type, object> _objects = new();
+        private List<IDisposable> _disposables = new(32);
 
         internal Dictionary<Type, object> objects { get { return _objects; } }
 
@@ -33,6 +34,17 @@ namespace Infrastructure.DI
         {
             TryClearParent();
 
+            foreach (var disposable in _disposables)
+            {
+                disposable?.Dispose();
+            }
+
+            _disposables.Clear();
+            _disposables = null;
+
+            _objects.Clear();
+            _objects = null;
+
             disposed?.Invoke();
         }
 
@@ -42,7 +54,7 @@ namespace Infrastructure.DI
             {
                 if (_parent != null)
                     return _parent.TryResolve(type, out obj);
-                
+
                 return false;
             }
 
@@ -51,7 +63,7 @@ namespace Infrastructure.DI
 
         internal bool IsAlreadyRegister(Type type)
         {
-            if (_objects.ContainsKey(type)) 
+            if (_objects.ContainsKey(type))
                 return true;
 
             return _parent?.IsAlreadyRegister(type) ?? false;
@@ -60,8 +72,15 @@ namespace Infrastructure.DI
         internal void Register<T>(T instance)
         {
             _objects[typeof(T)] = instance;
+
+            if (instance is IDisposable disposable)
+            {
+                if (Equals(disposable, this)) return;
+
+                _disposables.Add(disposable);
+            }
         }
-        
+
         private void TryClearParent()
         {
             if (_parent == null) return;

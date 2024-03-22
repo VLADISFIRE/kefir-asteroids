@@ -1,27 +1,24 @@
-﻿using Game.Gameplay;
-using Game.Presenters;
-using Game.UI;
-using Infrastructure.DI;
+﻿using Infrastructure.DI;
+using Initializers.Ecs;
+using Initializers.EngineEvents;
+using Initializers.Gameplay;
+using Initializers.UI;
 using UnityEngine;
 
-namespace Game
+public class Bootstrap
 {
-    public class Bootstrap
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    public static void Boot()
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        public static void Boot()
-        {
-            var scope = new Scope();
+        var scope = new Scope();
 
-            scope.Register<GameInput>();
+        scope.Register<EngineEventsInitializer>();
 
-            scope.Register<EngineEventsInitializer>();
+        scope.Register<GameInput>();
 
-            scope.Register<EcsInitializer>();
+        scope.Register<EcsInitializer>();
 
-            scope.Register<GameplayInitializer>();
-            scope.Register<PresentersInitializer>();
-            scope.Register<UIInitializer>();
-        }
+        scope.Register<GameplayInitializer>();
+        scope.Register<UIInitializer>();
     }
 }

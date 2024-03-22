@@ -1,10 +1,18 @@
 ﻿using Infrastructure.ECS;
+using UnityEngine;
 
 namespace Gameplay
 {
     public class MovementSystem : BaseSystem
     {
+        private GameSettingsScrobject _settings;
+
         private Mask _mask;
+
+        public MovementSystem(GameSettingsScrobject settings)
+        {
+            _settings = settings;
+        }
 
         protected override void OnInitialize()
         {
@@ -18,13 +26,7 @@ namespace Gameplay
                 ref var transform = ref entity.GetComponent<TransformComponent>();
                 ref var movement = ref entity.GetComponent<MovementComponent>();
 
-                float speed = 1;
-                if (entity.HasComponent<SpeedComponent>())
-                {
-                    speed = entity.GetComponent<SpeedComponent>().value;
-                }
-
-                transform.position += movement.velocity * speed;
+                transform.position += movement.velocity * deltaTime;
             }
         }
     }

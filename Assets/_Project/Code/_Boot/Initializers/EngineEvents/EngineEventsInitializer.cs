@@ -1,21 +1,24 @@
-using Game;
+using Infrastructure;
 using Infrastructure.DI;
 using UnityEngine;
 
-public class EngineEventsInitializer
+namespace Initializers.EngineEvents
 {
-    public EngineEventsInitializer(Scope scope)
+    public class EngineEventsInitializer
     {
-        var engineEventsSource = CreateEngineEventsSource();
-        scope.RegisterInstance(engineEventsSource);
+        public EngineEventsInitializer(Scope scope)
+        {
+            var engineEventsSource = CreateEngineEventsSource();
+            scope.RegisterInstance(engineEventsSource);
 
-        scope.Register<IEngineEvents, EngineEvents>();
+            scope.Register<IEngineEvents, Infrastructure.EngineEvents>();
 
-        scope.Register<ScopeDisposer>();
-    }
+            scope.Register<ScopeDisposer>();
+        }
 
-    private static IEngineEventsSource CreateEngineEventsSource()
-    {
-        return new GameObject("[EngineEvents]").AddComponent<UnityEngineEvents>();
+        private static IEngineEventsSource CreateEngineEventsSource()
+        {
+            return new GameObject("[EngineEvents]").AddComponent<UnityEngineEvents>();
+        }
     }
 }

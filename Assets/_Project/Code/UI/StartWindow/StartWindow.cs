@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.UI
+namespace UI
 {
     public class StartWindow : IDisposable
     {

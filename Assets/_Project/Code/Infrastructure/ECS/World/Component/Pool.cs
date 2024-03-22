@@ -11,7 +11,7 @@ namespace Infrastructure.ECS
         private readonly Stack<int> _freeStack;
 
         internal ref T this[int index] { get { return ref _array[index]; } }
-        
+
         internal IReadOnlyCollection<int> free { get { return _freeStack; } }
 
         public int capacity { get { return _array.Length; } }

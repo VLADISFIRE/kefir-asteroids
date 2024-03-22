@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.UI
+namespace UI
 {
     public class StartWindowLayout : MonoBehaviour
     {

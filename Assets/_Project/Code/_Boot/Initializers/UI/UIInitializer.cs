@@ -1,7 +1,8 @@
 ﻿using Infrastructure.DI;
+using UI;
 using UnityEngine;
 
-namespace Game.UI
+namespace Initializers.UI
 {
     public class UIInitializer
     {
@@ -20,11 +21,11 @@ namespace Game.UI
 
             var canvas = GameObject.FindGameObjectWithTag(CANVAS_TAG);
 
-            var startWindowLayout = Object.Instantiate(settings.windows.start, canvas.transform);
-
-            _scope.RegisterInstance(startWindowLayout);
-            
-            _scope.Register<StartWindow>();
+            // var startWindowLayout = Object.Instantiate(settings.windows.start, canvas.transform);
+            //
+            // _scope.RegisterInstance(startWindowLayout);
+            //
+            // _scope.Register<StartWindow>();
         }
     }
 }

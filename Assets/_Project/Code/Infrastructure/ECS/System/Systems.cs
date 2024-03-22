@@ -30,6 +30,7 @@ namespace Infrastructure.ECS
 
             _dictionary.Clear();
             _dictionary = null;
+            
         }
 
         internal void Initialize()
@@ -83,6 +84,14 @@ namespace Infrastructure.ECS
             foreach (var system in _systems)
             {
                 system?.Update(deltaTime);
+            }
+        }
+
+        internal void LateUpdate()
+        {
+            foreach (var system in _systems)
+            {
+                system?.LateUpdate();
             }
         }
     }

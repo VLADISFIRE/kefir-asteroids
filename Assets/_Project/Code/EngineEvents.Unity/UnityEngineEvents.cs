@@ -1,37 +1,36 @@
 ﻿using System;
+using Infrastructure;
 using UnityEngine;
+using EventType = Infrastructure.EventType;
 
-namespace Game
+public class UnityEngineEvents : MonoBehaviour, IEngineEventsSource
 {
-    public class UnityEngineEvents : MonoBehaviour, IEngineEventsSource
+    public float deltaTime { get { return Time.deltaTime; } }
+
+    public event Action<EventType> invoked;
+
+    private void Update()
     {
-        public float deltaTime { get { return Time.deltaTime; } }
-        
-        public event Action<EventType> invoked;
+        Invoke(EventType.Update);
+    }
 
-        private void Update()
-        {
-            Invoke(EventType.Update);
-        }
+    private void FixedUpdate()
+    {
+        Invoke(EventType.FixedUpdate);
+    }
 
-        private void FixedUpdate()
-        {
-            Invoke(EventType.FixedUpdate);
-        }
+    private void LateUpdate()
+    {
+        Invoke(EventType.LateUpdate);
+    }
 
-        private void LateUpdate()
-        {
-            Invoke(EventType.LateUpdate);
-        }
+    private void OnDestroy()
+    {
+        Invoke(EventType.Dispose);
+    }
 
-        private void OnDestroy()
-        {
-            Invoke(EventType.Dispose);
-        }
-
-        private void Invoke(EventType type)
-        {
-            invoked?.Invoke(type);
-        }
+    private void Invoke(EventType type)
+    {
+        invoked?.Invoke(type);
     }
 }

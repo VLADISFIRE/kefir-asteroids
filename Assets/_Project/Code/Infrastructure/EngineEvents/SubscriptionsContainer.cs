@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Utility;
+using UnityEngine;
 
-namespace Game
+namespace Infrastructure
 {
-    public class EventSubscriptionsContainer : IDisposable
+    public class SubscriptionsContainer : IDisposable
     {
         private EventType _type;
 
         private List<Action> _subscriptions;
 
-        public EventSubscriptionsContainer(EventType type)
+        public SubscriptionsContainer(EventType type)
         {
             _type = type;
 
@@ -34,7 +36,9 @@ namespace Game
 
         public void Invoke()
         {
-            for (int i = 0; i < _subscriptions.Count; i++)
+            if (_subscriptions.IsNullOrEmpty()) return;
+
+            for (int i = _subscriptions.Count; i-- > 0;)
             {
                 if (_subscriptions[i] == null)
                 {

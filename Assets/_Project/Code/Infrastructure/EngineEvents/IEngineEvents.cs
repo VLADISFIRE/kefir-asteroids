@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game
+namespace Infrastructure
 {
     public enum EventType
     {

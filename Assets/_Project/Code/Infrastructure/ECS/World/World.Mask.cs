@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Infrastructure.ECS
+﻿namespace Infrastructure.ECS
 {
     public sealed partial class World
     {

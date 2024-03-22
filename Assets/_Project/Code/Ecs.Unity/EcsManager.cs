@@ -1,7 +1,6 @@
 ﻿using System;
-using Infrastructure.ECS;
 
-namespace Game
+namespace Infrastructure.ECS
 {
     public class EcsManager : IEcsManager, IDisposable
     {
@@ -35,15 +34,17 @@ namespace Game
             _world = null;
         }
 
-        public void AddSystem<T>() where T : BaseSystem
+        public IEcsManager AddSystem<T>() where T : BaseSystem
         {
             var instance = _systemFactory.Create<T>();
             _systems.AddSystem(instance);
+            return this;
         }
 
-        public void RemoveSystem<T>() where T : BaseSystem
+        public IEcsManager RemoveSystem<T>() where T : BaseSystem
         {
             _systems.RemoveSystem<T>();
+            return this;
         }
 
         private void HandleUpdate()

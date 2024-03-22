@@ -1,7 +1,7 @@
 ﻿using Infrastructure.DI;
 using Infrastructure.ECS;
 
-namespace Game
+namespace Initializers.Ecs
 {
     public class EcsSystemFactory : IEcsSystemFactory
     {
