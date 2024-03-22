@@ -10,8 +10,6 @@ namespace Gameplay
         protected override void OnInitialize()
         {
             Mask<CollisionComponent, TransformComponent>().Build(out _mask);
-
-            var t = new LayerMask();
         }
 
         protected override void OnUpdate(float deltaTime)

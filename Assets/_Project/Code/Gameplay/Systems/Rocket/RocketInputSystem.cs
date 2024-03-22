@@ -4,18 +4,27 @@ namespace Gameplay
 {
     public class RocketInputSystem : BaseSystem
     {
+        private GameInput _gameInput;
         private GameInput.PlayerActions _input;
 
         private Mask _mask;
 
         public RocketInputSystem(GameInput input)
         {
+            _gameInput = input;
             _input = input.Player;
         }
 
         protected override void OnInitialize()
         {
             Mask<RocketEngineComponent, RocketRotateControlComponent>().Build(out _mask);
+
+            _gameInput.Enable();
+        }
+
+        protected override void OnDispose()
+        {
+            _gameInput.Disable();
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -30,7 +39,7 @@ namespace Gameplay
                 var inputRocketThrust = _input.RocketThrust;
                 var pressed = inputRocketThrust.IsPressed();
                 rocketEngine.enable = pressed;
-                
+
                 var readValue = _input.RocketRotate.ReadValue<float>();
                 rocketRotateControl.enable = readValue != 0;
                 rocketRotateControl.left = readValue > 0;

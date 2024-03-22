@@ -31,8 +31,11 @@ namespace Initializers.Gameplay
             scope.Register<IScreen, UnityScreen>();
 
             ecsManager
-               .AddSystem<RocketSpawnSystem>()
                .AddSystem<RocketInputSystem>();
+
+            ecsManager
+               .AddSystem<RocketSpawnSystem>()
+               .AddSystem<AsteroidSpawnerSystem>();
 
             ecsManager
                .AddSystem<PhysicsSystem>()
