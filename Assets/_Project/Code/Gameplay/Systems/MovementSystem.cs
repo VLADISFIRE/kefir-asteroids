@@ -1,4 +1,7 @@
-﻿using Infrastructure.ECS;
+﻿using Gameplay.Utility;
+using Infrastructure.ECS;
+using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 namespace Gameplay
 {
@@ -26,6 +29,10 @@ namespace Gameplay
                 ref var movement = ref entity.GetComponent<MovementComponent>();
 
                 transform.position += movement.velocity * deltaTime;
+
+                transform.rotation = transform.rotation.Rotate(movement.angleVelocity);
+                transform.rotation.Normalize();
+                
             }
         }
     }

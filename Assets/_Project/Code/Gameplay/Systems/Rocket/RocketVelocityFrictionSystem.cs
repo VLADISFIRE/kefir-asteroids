@@ -2,8 +2,10 @@
 
 namespace Gameplay
 {
-    public class RocketFrictionSystem : BaseSystem
+    public class RocketVelocityFrictionSystem : BaseSystem
     {
+        private const float FORCE = 5;
+
         private Mask _mask;
 
         protected override void OnInitialize()
@@ -17,9 +19,11 @@ namespace Gameplay
             {
                 ref var movement = ref entity.GetComponent<MovementComponent>();
 
-                if (movement.velocity.magnitude <= 0) return;
+                if (movement.velocity.magnitude != 0)
+                    movement.velocity -= movement.velocity * deltaTime;
 
-                movement.velocity -= movement.velocity * deltaTime;
+                if (movement.angleVelocity != 0)
+                    movement.angleVelocity -= FORCE * movement.angleVelocity * deltaTime;
             }
         }
     }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   player:
-    sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    sprite: {fileID: -450407394, guid: 26e1111abd469184a84b1cf9f8e3e90d, type: 3}
     rocket:
       enginePower: 500
-      rotateSpeed: 2
+      rotateSpeed: 0.5
   spawner:
     delay: 5
-    asteroid: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    asteroid: {fileID: 367476537, guid: aca845edcce3b634d9fc55061dcaa11f, type: 3}

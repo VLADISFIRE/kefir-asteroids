@@ -28,18 +28,22 @@ namespace Initializers.Gameplay
             var settings = Resources.Load<GameSettingsScrobject>(CONFIG_PATH);
             scope.RegisterInstance(settings);
 
+            scope.Register<IScreen, UnityScreen>();
+
             ecsManager
                .AddSystem<RocketSpawnSystem>()
                .AddSystem<RocketInputSystem>();
 
             ecsManager
                .AddSystem<PhysicsSystem>()
+               .AddSystem<CollisionSystem>()
                .AddSystem<MovementSystem>();
 
             ecsManager
                .AddSystem<RocketEngineSystem>()
                .AddSystem<RocketRotateControlSystem>()
-               .AddSystem<RocketFrictionSystem>();
+               .AddSystem<RocketVelocityFrictionSystem>()
+               .AddSystem<RocketAngleVelocityFrictionSystem>();
 
             ecsManager
                .AddSystem<SpriteRendererSystem>();

@@ -60,6 +60,10 @@ namespace Gameplay
 
             rocket.AddComponent<RigidbodyComponent>();
             rocket.AddComponent<MovementComponent>();
+            rocket.SetComponent(new CollisionComponent
+            {
+                radius = 0.5f
+            });
 
             rocket.SetComponent(new RocketEngineComponent
             {
@@ -86,13 +90,20 @@ namespace Gameplay
                 position = Vector2.zero,
                 rotation = Vector2.up
             });
-
+            asteroid.SetComponent(new CollisionComponent
+            {
+                radius = 0.5f
+            });
+            
             var x = Random.Range(-2f, 2f);
             var y = Random.Range(-2f, 2f);
 
+            var degreeAngleVelocity = Random.Range(-10f, 10f);
+
             asteroid.SetComponent(new MovementComponent
             {
-                velocity = new Vector2(x, y)
+                velocity = new Vector2(x, y),
+                angleVelocity = degreeAngleVelocity * Mathf.Deg2Rad
             });
 
             asteroid.SetComponent(new SpriteRendererComponent

@@ -17,7 +17,7 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<RocketRotateControlComponent, TransformComponent>().Build(out _mask);
+            Mask<RocketRotateControlComponent, MovementComponent, TransformComponent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -25,14 +25,13 @@ namespace Gameplay
             foreach (var entity in _mask)
             {
                 ref var rotate = ref entity.GetComponent<RocketRotateControlComponent>();
+                ref var movement = ref entity.GetComponent<MovementComponent>();
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
                 if (!rotate.enable) continue;
-
-                var direction = rotate.left ? transform.rotation.Left() : transform.rotation.Right();
-
-                transform.rotation = Vector2.LerpUnclamped(transform.rotation, direction, deltaTime * rotate.speed);
-                transform.rotation.Normalize();
+                
+                var rotateSpeed = rotate.speed * deltaTime;
+                movement.angleVelocity += rotate.left ? rotateSpeed : -rotateSpeed;
             }
         }
     }
