@@ -39,7 +39,7 @@ namespace Infrastructure.ECS
             }
             else
             {
-                if (!CheckByEntity(id)) return;
+                if (!Check(id)) return;
 
                 Add(id);
             }

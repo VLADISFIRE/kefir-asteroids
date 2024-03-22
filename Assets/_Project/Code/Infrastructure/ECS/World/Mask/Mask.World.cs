@@ -38,21 +38,11 @@ namespace Infrastructure.ECS
 
         private void FillMask(Mask mask)
         {
-            foreach (var entity in _entities)
+            foreach (var id in _entities)
             {
-                foreach (var includeHash in mask.include)
-                {
-                    if (!_holders.TryGetValue(includeHash, out var holder))
-                        continue;
-                }
+                if (!this.Check(id, mask.include, mask.exclude)) continue;
 
-                foreach (var excludeHash in mask.exclude)
-                {
-                    if (_holders.TryGetValue(excludeHash, out var holder))
-                        continue;
-                }
-
-                mask.Add(entity);
+                mask.Add(id);
             }
         }
     }

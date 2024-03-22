@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.ECS
+﻿using System.Collections.Generic;
+
+namespace Infrastructure.ECS
 {
     public static class MaskExtensions
     {
@@ -152,6 +154,21 @@
                .Exclude<T3>()
                .Exclude<T4>()
                .Exclude<T5>();
+        }
+
+        public static bool Check(this World world, int id, IEnumerable<int> includes, IEnumerable<int> exclude)
+        {
+            foreach (var hash in includes)
+            {
+                if (!world.Has(id, hash)) return false;
+            }
+
+            foreach (var hash in exclude)
+            {
+                if (world.Has(id, hash)) return false;
+            }
+
+            return true;
         }
     }
 }

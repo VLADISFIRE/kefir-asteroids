@@ -11,21 +11,9 @@
             }
         }
 
-        private bool CheckByEntity(int id)
+        private bool Check(int id)
         {
-            var entity = _world[id];
-
-            foreach (var hash in _include)
-            {
-                if (!_world.Has(entity.index, hash)) return false;
-            }
-
-            foreach (var hash in _exclude)
-            {
-                if (_world.Has(entity.index, hash)) return false;
-            }
-
-            return true;
+            return _world.Check(id, _include, _exclude);
         }
     }
 }
