@@ -20,9 +20,10 @@ namespace Gameplay.Utility
             return Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
-        public static Vector2 Rotate(this Vector2 vector, float rad)
+        public static ref Vector2 Rotate(this ref Vector2 vector, float rad)
         {
-            return new Vector2(vector.x * Mathf.Cos(rad) - vector.y * Mathf.Sin(rad), vector.x * Mathf.Sin(rad) + vector.y * Mathf.Cos(rad));
+            vector = new Vector2(vector.x * Mathf.Cos(rad) - vector.y * Mathf.Sin(rad), vector.x * Mathf.Sin(rad) + vector.y * Mathf.Cos(rad));
+            return ref vector;
         }
     }
 }

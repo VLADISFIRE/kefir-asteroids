@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aca845edcce3b634d9fc55061dcaa11f
+guid: ae295ce5172e30f4681c614574a7c294
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asteroid
+      name: small_asteroid
       rect:
         serializedVersion: 2
         x: 5
@@ -154,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      asteroid: 367476537
+      small_asteroid: 367476537
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

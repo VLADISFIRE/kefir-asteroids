@@ -4,7 +4,8 @@ namespace Gameplay
 {
     public interface IScreen
     {
-        Vector2 lowerLeft { get; }
-        Vector2 topRight { get; }
+        public Vector2 lowerLeft { get; }
+        public Vector2 topRight { get; }
+        public bool Contains(Vector2 point);
     }
 }

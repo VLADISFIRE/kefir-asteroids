@@ -43,6 +43,11 @@ namespace Gameplay
                 var readValue = _input.RocketRotate.ReadValue<float>();
                 rocketRotateControl.enable = readValue != 0;
                 rocketRotateControl.left = readValue > 0;
+
+                if (_input.Fire.IsPressed())
+                {
+                    _world.Clear();
+                }
             }
         }
     }

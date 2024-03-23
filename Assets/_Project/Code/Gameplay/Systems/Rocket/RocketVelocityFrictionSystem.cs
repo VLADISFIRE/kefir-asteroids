@@ -4,7 +4,7 @@ namespace Gameplay
 {
     public class RocketVelocityFrictionSystem : BaseSystem
     {
-        private const float FORCE = 5;
+        private const float ANGLE_VELOCITY_MODIFIER = 5;
 
         private Mask _mask;
 
@@ -23,7 +23,7 @@ namespace Gameplay
                     movement.velocity -= movement.velocity * deltaTime;
 
                 if (movement.angleVelocity != 0)
-                    movement.angleVelocity -= FORCE * movement.angleVelocity * deltaTime;
+                    movement.angleVelocity -= ANGLE_VELOCITY_MODIFIER * movement.angleVelocity * deltaTime;
             }
         }
     }

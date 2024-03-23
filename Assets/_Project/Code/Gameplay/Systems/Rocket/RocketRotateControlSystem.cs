@@ -1,19 +1,10 @@
-﻿using Gameplay.Utility;
-using Infrastructure.ECS;
-using UnityEngine;
+﻿using Infrastructure.ECS;
 
 namespace Gameplay
 {
     public class RocketRotateControlSystem : BaseSystem
     {
-        private GameSettingsScrobject _settings;
-
         private Mask _mask;
-
-        public RocketRotateControlSystem(GameSettingsScrobject settings)
-        {
-            _settings = settings;
-        }
 
         protected override void OnInitialize()
         {
@@ -29,9 +20,9 @@ namespace Gameplay
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
                 if (!rotate.enable) continue;
-                
-                var rotateSpeed = rotate.speed * deltaTime;
-                movement.angleVelocity += rotate.left ? rotateSpeed : -rotateSpeed;
+
+                var angleSpeed = rotate.speed * deltaTime;
+                movement.angleVelocity += rotate.left ? angleSpeed : -angleSpeed;
             }
         }
     }

@@ -25,8 +25,8 @@ namespace Initializers.Gameplay
                 scope.RegisterInstance(camera);
             }
 
-            var settings = Resources.Load<GameSettingsScrobject>(CONFIG_PATH);
-            scope.RegisterInstance(settings);
+            var scrobject = Resources.Load<GameSettingsScrobject>(CONFIG_PATH);
+            scope.RegisterInstance(scrobject.settings);
 
             scope.Register<IScreen, UnityScreen>();
 
@@ -52,7 +52,8 @@ namespace Initializers.Gameplay
                .AddSystem<SpriteRendererSystem>();
 
             ecsManager
-               .AddSystem<ScreenPortalSystem>();
+               .AddSystem<ScreenPortalSystem>()
+               .AddSystem<DestroyScreenOutsidersSystem>();
         }
     }
 }

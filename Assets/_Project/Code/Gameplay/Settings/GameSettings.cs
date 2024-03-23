@@ -1,19 +1,17 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Gameplay
 {
-    [CreateAssetMenu(menuName = "Game/Settings", fileName = "GameSettings")]
-    public class GameSettingsScrobject : ScriptableObject
+    [Serializable]
+    public class GameSettings
     {
         public PlayerSettings player;
         public SpawnerSettings spawner;
     }
 
     [Serializable]
-    public class PlayerSettings
+    public partial class PlayerSettings
     {
-        public Sprite sprite;
         public RocketSettings rocket;
     }
 
@@ -25,9 +23,8 @@ namespace Gameplay
     }
 
     [Serializable]
-    public class SpawnerSettings
+    public partial class SpawnerSettings
     {
         public float delay = 5;
-        public Sprite asteroid;
     }
 }

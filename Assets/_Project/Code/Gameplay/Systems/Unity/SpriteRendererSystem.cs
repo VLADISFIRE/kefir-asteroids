@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using Utility;
 using Gameplay.Utility;
 using Infrastructure.ECS;
 using UnityEngine;
-using Utility.Pooling;
 
 namespace Gameplay.Render
 {
-    public class SpriteRendererSystem : BaseSystem
+    public class SpriteRendererSystem : BaseSystem, IEventReactionSystem<EntityBeforeDestroyedEvent>
     {
         private Mask _mask;
 
@@ -44,31 +42,13 @@ namespace Gameplay.Render
             }
         }
 
-        protected override void OnLateUpdate()
+        public void ReactOn(EntityBeforeDestroyedEvent @event)
         {
-            using (ListPool<Entity>.Get(out var list))
+            ref var entity = ref @event.entity;
+
+            if (_views.TryGetValue(entity, out var view))
             {
-                foreach (var pair in _views)
-                {
-                    var entity = pair.Key;
-                    var isAlive = entity.IsAlive();
-
-                    if (isAlive) continue;
-
-                    _pool.Release(pair.Value);
-
-                    if (list == null)
-                        list = new List<Entity>(8);
-
-                    list.Add(entity);
-                }
-
-                if (list.IsNullOrEmpty()) return;
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    _views.Remove(list[i]);
-                }
+                _pool.Release(view);
             }
         }
     }

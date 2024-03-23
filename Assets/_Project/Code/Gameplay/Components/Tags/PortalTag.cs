@@ -2,7 +2,8 @@
 
 namespace Gameplay
 {
-    public struct AsteroidTag : IComponent
+    public struct PortalTag : IComponent
     {
+        
     }
 }

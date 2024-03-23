@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Infrastructure.ECS
 {
-    public class Systems : IDisposable
+    public partial class Systems : IDisposable
     {
         private World _world;
 
@@ -16,10 +16,18 @@ namespace Infrastructure.ECS
         public Systems(World world)
         {
             _world = world;
+
+            _world.beforeRemoved += HandleBeforeEntityRemoved;
+            _world.removed += HandleEntityRemoved;
         }
 
         public void Dispose()
         {
+            _world.beforeRemoved -= HandleBeforeEntityRemoved;
+            _world.removed -= HandleEntityRemoved;
+
+            _world = null;
+
             foreach (var system in _systems)
             {
                 system?.Dispose();
@@ -30,7 +38,8 @@ namespace Infrastructure.ECS
 
             _dictionary.Clear();
             _dictionary = null;
-            
+
+            DisposeEvents();
         }
 
         internal void Initialize()
@@ -43,7 +52,7 @@ namespace Infrastructure.ECS
             }
         }
 
-        internal T Add<T>(T system) where T : ISystem
+        internal T Add<T>(T system, bool autoPlay = true) where T : ISystem
         {
             var hash = SystemIdentifier<T>.hash;
 
@@ -53,10 +62,15 @@ namespace Infrastructure.ECS
             _dictionary.Add(hash, system);
             _systems.Add(system);
 
+            OnSystemAddedByEvent(system);
+
             if (_initialized)
             {
                 system.Initialize(_world);
             }
+
+            if (autoPlay)
+                system.Play();
 
             return system;
         }
@@ -67,16 +81,8 @@ namespace Infrastructure.ECS
 
             if (_dictionary.TryGetValue(hash, out var system))
             {
-                Remove(system);
+                Remove(system, hash);
             }
-        }
-
-        internal void Remove<T>(T system) where T : ISystem
-        {
-            var hash = SystemIdentifier<T>.hash;
-
-            _dictionary.Remove(hash);
-            _systems.Remove(system);
         }
 
         internal void Update(float deltaTime)
@@ -93,6 +99,24 @@ namespace Infrastructure.ECS
             {
                 system?.LateUpdate();
             }
+        }
+
+        private void Remove(ISystem system, int hash)
+        {
+            _dictionary.Remove(hash);
+            _systems.Remove(system);
+
+            OnSystemRemovedByEvent(system, hash);
+        }
+
+        private void HandleBeforeEntityRemoved(Entity entity)
+        {
+            SendEvent(new EntityBeforeDestroyedEvent {entity = entity});
+        }
+
+        private void HandleEntityRemoved(int index)
+        {
+            SendEvent(new EntityDestroyedCommand {index = index});
         }
     }
 }

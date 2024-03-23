@@ -4,8 +4,9 @@ namespace Gameplay
 {
     public class ScreenPortalSystem : BaseSystem
     {
-        private Mask _mask;
         private IScreen _screen;
+        
+        private Mask _mask;
 
         public ScreenPortalSystem(IScreen screen)
         {
@@ -14,7 +15,7 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent>().Build(out _mask);
+            Mask<TransformComponent, PortalTag>().Build(out _mask);
         }
 
         protected override void OnLateUpdate()

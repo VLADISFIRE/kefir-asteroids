@@ -13,9 +13,12 @@ namespace Infrastructure.ECS
 
         public ref Entity this[int index] { get { return ref _pool[index]; } }
 
+        public event Action<Entity> beforeRemoved;
+        public event Action<int> removed;
+
         public World(int capacity = DEFAULT_ENTITY_CAPACITY)
         {
-            _pool = new Pool<Entity>(capacity);
+            _pool = new Pool<Entity>(new Policy(), capacity);
             _pool.resized += OnResized;
 
             _entities = new List<int>(capacity);
@@ -43,8 +46,9 @@ namespace Infrastructure.ECS
 
         internal void RemoveEntity(int index)
         {
-            _pool[index].index = -1;
-            _pool[index].world = null;
+            ref var entity = ref _pool[index];
+
+            beforeRemoved?.Invoke(entity);
 
             OnEntityRemovedByMask(index);
             OnEntityRemovedByComponentHolders(index);
@@ -52,6 +56,28 @@ namespace Infrastructure.ECS
             _entities.Remove(index);
 
             _pool.Release(index);
+
+            removed?.Invoke(index);
+        }
+
+        internal void Clear()
+        {
+            OnClearByComponentsHolders();
+
+            foreach (var index in _entities)
+            {
+                ref var entity = ref _pool[index];
+
+                beforeRemoved?.Invoke(entity);
+                
+                _pool.Release(index);
+
+                removed?.Invoke(index);
+            }
+
+            OnClearByMask();
+
+            _entities.Clear();
         }
 
         internal bool IsAlive(int index)
@@ -62,6 +88,19 @@ namespace Infrastructure.ECS
         private void OnResized(int capacity)
         {
             OnResizedByComponents(capacity);
+        }
+
+        private class Policy : IPoolPolicy<Entity>
+        {
+            public void OnGet(ref Entity obj)
+            {
+            }
+
+            public void OnRelease(ref Entity obj)
+            {
+                obj.index = -1;
+                obj.world = null;
+            }
         }
     }
 }

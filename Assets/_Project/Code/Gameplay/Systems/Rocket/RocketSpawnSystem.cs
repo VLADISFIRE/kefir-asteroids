@@ -5,11 +5,11 @@ namespace Gameplay
 {
     public class RocketSpawnSystem : BaseSystem
     {
-        private GameSettingsScrobject _settings;
+        private GameSettings _settings;
 
         private Mask _mask;
 
-        public RocketSpawnSystem(GameSettingsScrobject settings, GameInput gameInput)
+        public RocketSpawnSystem(GameSettings settings, GameInput gameInput)
         {
             _settings = settings;
         }
@@ -18,7 +18,7 @@ namespace Gameplay
         {
             CreateRocket();
 
-            Mask<AsteroidTag>().Build(out _mask);
+            Mask<EnemyTag>().Build(out _mask);
         }
 
         private void CreateRocket()
@@ -51,6 +51,8 @@ namespace Gameplay
             {
                 sprite = _settings.player.sprite
             });
+
+            rocket.AddComponent<PortalTag>();
         }
     }
 }

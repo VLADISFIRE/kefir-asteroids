@@ -1,20 +1,11 @@
 ﻿using Gameplay.Utility;
 using Infrastructure.ECS;
-using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
 
 namespace Gameplay
 {
     public class MovementSystem : BaseSystem
     {
-        private GameSettingsScrobject _settings;
-
         private Mask _mask;
-
-        public MovementSystem(GameSettingsScrobject settings)
-        {
-            _settings = settings;
-        }
 
         protected override void OnInitialize()
         {
@@ -30,9 +21,8 @@ namespace Gameplay
 
                 transform.position += movement.velocity * deltaTime;
 
-                transform.rotation = transform.rotation.Rotate(movement.angleVelocity);
+                transform.rotation.Rotate(movement.angleVelocity);
                 transform.rotation.Normalize();
-                
             }
         }
     }

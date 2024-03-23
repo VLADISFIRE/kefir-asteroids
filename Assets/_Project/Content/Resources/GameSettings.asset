@@ -20,3 +20,4 @@ MonoBehaviour:
   spawner:
     delay: 5
     asteroid: {fileID: 367476537, guid: aca845edcce3b634d9fc55061dcaa11f, type: 3}
+    smallAsteroid: {fileID: 367476537, guid: ae295ce5172e30f4681c614574a7c294, type: 3}

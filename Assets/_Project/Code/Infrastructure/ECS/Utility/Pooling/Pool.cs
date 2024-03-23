@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace Infrastructure.ECS
 {
-    public sealed class Pool<T> : IPool, IDisposable
+    public sealed class Pool<T> : IPool<T>, IDisposable
     {
+        private const int DEFAULT_CAPACITY = 128;
+
         private T[] _array;
 
         private int _increment;
         private readonly Stack<int> _freeStack;
+        private IPoolPolicy<T> _policy;
 
         internal ref T this[int index] { get { return ref _array[index]; } }
 
@@ -18,10 +21,15 @@ namespace Infrastructure.ECS
 
         public event Action<int> resized;
 
-        internal Pool(int capacity = 128)
+        internal Pool(int capacity = DEFAULT_CAPACITY)
         {
             _array = new T[capacity];
             _freeStack = new Stack<int>(capacity);
+        }
+
+        internal Pool(IPoolPolicy<T> policy, int capacity = DEFAULT_CAPACITY) : this(capacity)
+        {
+            _policy = policy;
         }
 
         internal void Set(int index, T value = default)
@@ -38,11 +46,15 @@ namespace Infrastructure.ECS
         public void Release(int index)
         {
             _freeStack.Push(index);
+
+            _policy?.OnRelease(ref this[index]);
         }
 
         public ref T Get(out int index, T value = default)
         {
             index = Get(value);
+
+            _policy?.OnGet(ref this[index]);
 
             return ref this[index];
         }

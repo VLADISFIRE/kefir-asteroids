@@ -4,14 +4,7 @@ namespace Gameplay
 {
     public class RocketEngineSystem : BaseSystem
     {
-        private GameSettingsScrobject _settings;
-
         private Mask _mask;
-
-        public RocketEngineSystem(GameSettingsScrobject settings)
-        {
-            _settings = settings;
-        }
 
         protected override void OnInitialize()
         {

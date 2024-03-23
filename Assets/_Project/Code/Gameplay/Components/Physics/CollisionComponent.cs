@@ -5,5 +5,7 @@ namespace Gameplay
     public struct CollisionComponent : IComponent
     {
         public float radius;
+
+        public int layer;
     }
 }

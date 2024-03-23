@@ -7,7 +7,7 @@ namespace Gameplay
         private const int Z_CAMERA_OFFSET = 1;
 
         private Camera _camera;
-        
+
         private readonly Vector3 _topRight;
         private readonly Vector3 _lowerLeft;
 
@@ -23,6 +23,15 @@ namespace Gameplay
 
             _lowerLeft = _camera.ScreenToWorldPoint(lowerLeftScreenPoint);
             _topRight = _camera.ScreenToWorldPoint(topRightScreenPoint);
+        }
+
+        public bool Contains(Vector2 point)
+        {
+            return 
+                point.x >= lowerLeft.x && 
+                point.x <= topRight.x && 
+                point.y >= lowerLeft.y &&
+                point.y <= topRight.y;
         }
     }
 }
