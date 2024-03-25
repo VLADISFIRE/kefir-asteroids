@@ -20,17 +20,17 @@ namespace Infrastructure.ECS
         {
         }
 
-        protected sealed override void OnLateUpdate()
+        protected sealed override void OnSystemUpdate()
         {
-            OnLateUpdated();
-
             for (int i = _mask.count; i-- > 0;)
             {
                 _mask[i].RemoveComponent<T>();
             }
+
+            OnSystemUpdated();
         }
 
-        protected virtual void OnLateUpdated()
+        protected virtual void OnSystemUpdated()
         {
         }
     }
@@ -53,10 +53,8 @@ namespace Infrastructure.ECS
         {
         }
 
-        protected sealed override void OnLateUpdate()
+        protected sealed override void OnSystemUpdate()
         {
-            OnLateUpdated();
-
             for (int i = 0; i < _masks.Count; i++)
             {
                 for (int j = _masks[i].count; j-- > 0;)
@@ -64,9 +62,11 @@ namespace Infrastructure.ECS
                     _masks[i][j].RemoveComponent<T>();
                 }
             }
+
+            OnSystemUpdated();
         }
 
-        protected virtual void OnLateUpdated()
+        protected virtual void OnSystemUpdated()
         {
         }
     }
@@ -91,10 +91,8 @@ namespace Infrastructure.ECS
         {
         }
 
-        protected sealed override void OnLateUpdate()
+        protected sealed override void OnSystemUpdate()
         {
-            OnLateUpdated();
-            
             for (int i = 0; i < _masks.Count; i++)
             {
                 for (int j = _masks[i].count; j-- > 0;)
@@ -102,9 +100,11 @@ namespace Infrastructure.ECS
                     _masks[i][j].RemoveComponent<T>();
                 }
             }
+
+            OnSystemUpdated();
         }
 
-        protected virtual void OnLateUpdated()
+        protected virtual void OnSystemUpdated()
         {
         }
     }

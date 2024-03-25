@@ -60,7 +60,7 @@ namespace Gameplay
                 maxValue = 1
             });
 
-            rocket.AddComponent<PortalTag>();
+            rocket.AddComponent<PortalTag, ParticleTag>();
         }
     }
 }

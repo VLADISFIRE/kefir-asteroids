@@ -34,7 +34,7 @@ MonoBehaviour:
     spawner:
       delay: 1
       startAsteroidsAmount: 10
-      maxAsteroids: 20
+      maxAsteroids: 18
       asteroids:
       - health: 1
         minSpeed: 1

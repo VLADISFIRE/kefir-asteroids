@@ -173,6 +173,11 @@ namespace Infrastructure.ECS
 
         private void OnBeforeUpdate()
         {
+            foreach (var system in _activeSystems)
+            {
+                system?.BeforeUpdate();
+            }
+
             if (_waitingSystems.Count <= 0) return;
 
             foreach (var system in _waitingSystems)
@@ -188,6 +193,11 @@ namespace Infrastructure.ECS
             foreach (var system in _activeSystems)
             {
                 system?.LateUpdate();
+            }
+
+            foreach (var system in _activeSystems)
+            {
+                system?.SystemUpdate();
             }
         }
     }

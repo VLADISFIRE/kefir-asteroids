@@ -56,26 +56,27 @@ namespace Initializers.Gameplay
             ecsManager
                .AddSystem<RocketSpawnSystem>()
                .AddSystem<AsteroidsSpawnAfterDestroySystem>()
-               .AddSystem<AsteroidsSpawnerSystem>();
+               .AddSystem<AsteroidsSpawnSystem>();
 
             ecsManager
                .AddSystem<ScreenPortalSystem>()
-               .AddSystem<DestroyScreenOutsidersSystem>();
-
-            ecsManager
-               .AddSystem<DestroySystem>();
+               .AddSystem<DestroyScreenOutsidersSystem>()
+               .AddSystem<SpawnParticleAfterDestroySystem>();
 
             //Render
-            var spriteRendererePool = new SpriteRendererPool(8);
-            scope.RegisterInstance(spriteRendererePool);
+            var spriteRendererPool = new SpriteRendererPool(8);
+            scope.RegisterInstance(spriteRendererPool);
 
             var particlePool = new ParticleSystemPool(scrobject.settings.particle, 8);
             scope.RegisterInstance(particlePool);
 
             ecsManager
+               .AddSystem<ParticleSpawnSystem>()
                .AddSystem<SpriteRendererSystem>(EngineType.Default)
-               .AddSystem<ParticleRendererSystem>(EngineType.Default)
                .AddSystem<RocketRenderSystem>(EngineType.Default);
+
+            ecsManager
+               .AddSystem<DestroySystem>();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Gameplay
 {
-    public struct AsteroidsSpawnComponent : IComponent
+    public struct AsteroidsAfterDestroyComponent : IComponent
     {
         public int[] asteroids;
     }

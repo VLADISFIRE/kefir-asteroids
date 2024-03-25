@@ -4,22 +4,23 @@ using Utility;
 
 namespace Gameplay
 {
-    public class AsteroidsSpawnerSystem : BaseSystem
+    public class AsteroidsSpawnSystem : BaseEventSystem<AsteroidSpawnEvent>
     {
         private GameSettings _settings;
         private IScreen _screen;
 
         private Mask _mask;
         private Mask _spawnMask;
+
         private float _t;
 
-        public AsteroidsSpawnerSystem(GameSettings settings, IScreen screen)
+        public AsteroidsSpawnSystem(GameSettings settings, IScreen screen)
         {
             _settings = settings;
             _screen = screen;
         }
 
-        protected override void OnInitialize()
+        protected override void OnInitialized()
         {
             Mask<AsteroidTag>().Build(out _mask);
             Mask<AsteroidSpawnEvent>().Build(out _spawnMask);
@@ -29,12 +30,16 @@ namespace Gameplay
         {
             for (int i = 0; i < _settings.spawner.startAsteroidsAmount; i++)
             {
-                CreateAsteroid(AsteroidType.BIG);
+                CreateAsteroid();
             }
         }
 
+        private float _test;
+
         protected override void OnUpdate(float deltaTime)
         {
+            _test += deltaTime;
+
             _t += deltaTime;
 
             if (_t > _settings.spawner.delay)
@@ -51,7 +56,7 @@ namespace Gameplay
         {
             foreach (var entity in _spawnMask)
             {
-                ref var asteroidsSpawn = ref entity.GetComponent<AsteroidsSpawnComponent>();
+                ref var asteroidsSpawn = ref entity.GetComponent<AsteroidsAfterDestroyComponent>();
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
                 foreach (var index in asteroidsSpawn.asteroids)
@@ -74,7 +79,7 @@ namespace Gameplay
 
         private void CreateAsteroid(AsteroidInfo info, Vector2? position = null)
         {
-            ref var asteroid = ref _world.NewEntity();
+            ref var entity = ref _world.NewEntity();
 
             Vector2 pos;
             if (position != null)
@@ -94,13 +99,13 @@ namespace Gameplay
 
             var rotation = new Vector2(x2, y2).normalized;
 
-            asteroid.SetComponent(new TransformComponent
+            entity.SetComponent(new TransformComponent
             {
                 position = pos,
                 rotation = rotation
             });
 
-            asteroid.SetComponent(new ColliderComponent
+            entity.SetComponent(new ColliderComponent
             {
                 radius = info.radius,
 
@@ -117,37 +122,37 @@ namespace Gameplay
 
             var velocity = rotation * speed;
 
-            asteroid.SetComponent(new MovementComponent
+            entity.SetComponent(new MovementComponent
             {
                 velocity = velocity,
                 angleVelocity = degreeAngleVelocity * Mathf.Deg2Rad
             });
 
-            asteroid.SetComponent(new SpriteRendererComponent
+            entity.SetComponent(new SpriteRendererComponent
             {
                 sprite = info.sprite,
             });
 
-            asteroid.SetComponent(new HealthComponent
+            entity.SetComponent(new HealthComponent
             {
                 value = info.health,
                 maxValue = info.health
             });
 
-            asteroid.SetComponent(new DamageCollisionComponent
+            entity.SetComponent(new DamageCollisionComponent
             {
                 value = 1
             });
 
             if (!info.asteroidsAfterDestroy.IsNullOrEmpty())
             {
-                asteroid.SetComponent(new AsteroidsSpawnComponent
+                entity.SetComponent(new AsteroidsAfterDestroyComponent
                 {
                     asteroids = info.asteroidsAfterDestroy
                 });
             }
 
-            asteroid.AddComponent<PortalTag, AsteroidTag>();
+            entity.AddComponent<PortalTag, AsteroidTag, ParticleTag>();
         }
 
         private bool GetRandomBool()

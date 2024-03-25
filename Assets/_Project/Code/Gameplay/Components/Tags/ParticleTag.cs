@@ -2,7 +2,7 @@
 
 namespace Gameplay
 {
-    public struct ParticleComponent : IComponent
+    public struct ParticleTag : IComponent
     {
     }
 }

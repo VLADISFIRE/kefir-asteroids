@@ -1,5 +1,4 @@
 ﻿using Infrastructure.ECS;
-using UnityEngine;
 
 namespace Gameplay
 {
@@ -12,7 +11,7 @@ namespace Gameplay
             Mask<DestroyEvent>().Build(out _mask);
         }
 
-        protected override void OnLateUpdated()
+        protected override void OnLateUpdate()
         {
             foreach (var entity in _mask)
             {

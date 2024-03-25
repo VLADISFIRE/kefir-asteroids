@@ -8,19 +8,18 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<HealthComponent>().Build(out _mask);
+            Mask<HealthComponent>().Exclude<DestroyEvent>().Build(out _mask);
         }
 
-        protected override void OnLateUpdate()
+        protected override void OnUpdate(float deltaTime)
         {
             foreach (var entity in _mask)
             {
                 ref var health = ref entity.GetComponent<HealthComponent>();
 
-                if (health.value <= 0)
-                {
-                    entity.AddComponent<DestroyEvent>();
-                }
+                if (health.value > 0) continue;
+
+                entity.AddComponent<DestroyEvent>();
             }
         }
     }

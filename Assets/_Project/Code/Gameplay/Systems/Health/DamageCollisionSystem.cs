@@ -1,5 +1,4 @@
 ﻿using Infrastructure.ECS;
-using UnityEngine;
 
 namespace Gameplay
 {
@@ -26,10 +25,9 @@ namespace Gameplay
                     value = damageCollision.value,
                 });
 
-                if (damageCollision.autoDestroy)
-                {
-                    entity.AddComponent<DestroyEvent>();
-                }
+                if (!damageCollision.autoDestroy) continue;
+
+                entity.AddComponent<DestroyEvent>();
             }
         }
     }

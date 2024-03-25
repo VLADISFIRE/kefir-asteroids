@@ -11,7 +11,7 @@ namespace Gameplay
             Mask<HealthComponent, DamageEvent>().Build(out _mask);
         }
 
-        protected override void OnUpdate(float deltaTime)
+        protected override void OnLateUpdate()
         {
             foreach (var entity in _mask)
             {

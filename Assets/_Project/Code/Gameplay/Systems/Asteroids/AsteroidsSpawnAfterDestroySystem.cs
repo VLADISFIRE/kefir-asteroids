@@ -2,20 +2,20 @@
 
 namespace Gameplay
 {
-    public class AsteroidsSpawnAfterDestroySystem : BaseEventSystem<AsteroidSpawnEvent>
+    public class AsteroidsSpawnAfterDestroySystem : BaseSystem
     {
         private Mask _mask;
 
-        protected override void OnInitialized()
+        protected override void OnInitialize()
         {
-            Mask<AsteroidsSpawnComponent, DestroyEvent>().Build(out _mask);
+            Mask<DestroyEvent, AsteroidsAfterDestroyComponent>().Build(out _mask);
         }
 
-        protected override void OnUpdate(float deltaTime)
+        protected override void OnLateUpdate()
         {
             foreach (var entity in _mask)
             {
-                ref var asteroidSpawn = ref entity.GetComponent<AsteroidsSpawnComponent>();
+                ref var asteroidSpawn = ref entity.GetComponent<AsteroidsAfterDestroyComponent>();
 
                 entity.SetComponent(new AsteroidSpawnEvent
                 {
