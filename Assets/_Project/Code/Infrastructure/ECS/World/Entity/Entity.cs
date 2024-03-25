@@ -2,7 +2,15 @@
 {
     public partial struct Entity
     {
+        public static Entity empty = new(-1);
+        
         public int index { get; internal set; }
+
+        public Entity(int index)
+        {
+            this.index = index;
+            world = null;
+        }
 
         public static bool operator ==(Entity a, Entity b)
         {
@@ -36,7 +44,7 @@
 
         public override string ToString()
         {
-            return IsAlive() ? $"Entity [ {index} ]" : $"Entity [ null ]"; 
+            return IsAlive() ? $"Entity [ {index} ]" : $"Entity [ null ]";
         }
     }
 }

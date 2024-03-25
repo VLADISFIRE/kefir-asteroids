@@ -5,50 +5,50 @@ using UnityEngine;
 
 namespace Gameplay.Render
 {
-    public class SpriteRendererSystem : BaseSystem, IEventReactionSystem<EntityBeforeDestroyedEvent>
+    public class SpriteRendererSystem : BaseSystem
     {
         private Mask _mask;
 
-        private Dictionary<Entity, SpriteRenderer> _views = new(32);
+        private List<SpriteRenderer> _renderers = new(32);
 
         private SpriteRendererPool _pool;
+
+        public SpriteRendererSystem(SpriteRendererPool pool)
+        {
+            _pool = pool;
+        }
 
         protected override void OnInitialize()
         {
             Mask<TransformComponent, SpriteRendererComponent>().Build(out _mask);
-
-            _pool = new SpriteRendererPool();
         }
 
         protected override void OnUpdate(float deltaTime)
         {
+            foreach (var render in _renderers)
+            {
+                _pool.Release(render);
+            }
+
+            _renderers.Clear();
+
             foreach (var entity in _mask)
             {
-                ref var view = ref entity.GetComponent<SpriteRendererComponent>();
+                ref var render = ref entity.GetComponent<SpriteRendererComponent>();
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
-                if (!_views.ContainsKey(entity) || _views[entity] == null)
-                {
-                    var spriteRenderer = _pool.Get();
-                    _views[entity] = spriteRenderer;
+                var view = _pool.Get();
+                view.sprite = render.sprite;
 
-                    spriteRenderer.sprite = view.sprite;
+                if (render.color != Color.clear)
+                    view.color = render.color;
 
-                    spriteRenderer.gameObject.name = entity.ToString();
-                }
+                view.sortingOrder = render.layer;
 
-                _views[entity].transform.position = transform.position;
-                _views[entity].transform.rotation = transform.rotation.ToQuaternion();
-            }
-        }
+                view.transform.position = transform.position;
+                view.transform.rotation = transform.rotation.ToQuaternion();
 
-        public void ReactOn(EntityBeforeDestroyedEvent @event)
-        {
-            ref var entity = ref @event.entity;
-
-            if (_views.TryGetValue(entity, out var view))
-            {
-                _pool.Release(view);
+                _renderers.Add(view);
             }
         }
     }

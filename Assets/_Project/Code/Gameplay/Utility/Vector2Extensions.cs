@@ -16,7 +16,7 @@ namespace Gameplay.Utility
 
         public static Quaternion ToQuaternion(this Vector2 vector)
         {
-            var angle = Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
+            var angle = Mathf.Atan2(-vector.x, vector.y) * Mathf.Rad2Deg;
             return Quaternion.AngleAxis(angle, Vector3.forward);
         }
 

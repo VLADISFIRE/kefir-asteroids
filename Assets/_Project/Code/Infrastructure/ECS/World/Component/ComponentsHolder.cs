@@ -118,7 +118,8 @@ namespace Infrastructure.ECS
 
             var index = GetIndex(id);
             _pool.Release(index);
-            return false;
+            _ids[id] = 0;
+            return true;
         }
 
         private int InternalAdd(int id, T value = default)

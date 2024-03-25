@@ -2,7 +2,7 @@
 
 namespace Gameplay
 {
-    public class RocketInputSystem : BaseSystem
+    public class RocketInputSystem : BaseEventSystem<RocketFireEvent, RocketSwapWeaponEvent>
     {
         private GameInput _gameInput;
         private GameInput.PlayerActions _input;
@@ -15,7 +15,7 @@ namespace Gameplay
             _input = input.Player;
         }
 
-        protected override void OnInitialize()
+        protected override void OnInitialized()
         {
             Mask<RocketEngineComponent, RocketRotateControlComponent>().Build(out _mask);
 
@@ -46,7 +46,12 @@ namespace Gameplay
 
                 if (_input.Fire.IsPressed())
                 {
-                    _world.Clear();
+                    entity.AddComponent<RocketFireEvent>();
+                }
+
+                if (_input.SwapWeapon.IsPressed())
+                {
+                    entity.AddComponent<RocketSwapWeaponEvent>();
                 }
             }
         }

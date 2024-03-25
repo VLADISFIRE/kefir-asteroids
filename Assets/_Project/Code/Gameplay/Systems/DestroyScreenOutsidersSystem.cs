@@ -14,7 +14,7 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent, ScreenOutsidersTag>().Build(out _mask);
+            Mask<TransformComponent>().Exclude<PortalTag>().Build(out _mask);
         }
 
         protected override void OnLateUpdate()
@@ -25,7 +25,7 @@ namespace Gameplay
 
                 if (!_screen.Contains(transform.position))
                 {
-                    entity.Remove();
+                    entity.AddComponent<DestroyEvent>();
                 }
             }
         }

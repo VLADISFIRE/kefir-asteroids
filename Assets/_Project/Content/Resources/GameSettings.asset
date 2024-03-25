@@ -12,12 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7d3c5aeaaa43638d7cf80977e33095, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  player:
-    sprite: {fileID: -450407394, guid: 26e1111abd469184a84b1cf9f8e3e90d, type: 3}
+  settings:
+    particle: {fileID: 4411584654981764242, guid: f46207a353aeee64ea046c80bba3b5ae, type: 3}
     rocket:
       enginePower: 500
-      rotateSpeed: 0.5
-  spawner:
-    delay: 5
-    asteroid: {fileID: 367476537, guid: aca845edcce3b634d9fc55061dcaa11f, type: 3}
-    smallAsteroid: {fileID: 367476537, guid: ae295ce5172e30f4681c614574a7c294, type: 3}
+      rotateSpeed: 1
+      weapon:
+        pistol:
+          cooldown: 0.1
+          speed: 13
+          offset: 1
+          radius: 0.2
+          sprite: {fileID: 41141754, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
+        laser:
+          charges: 0
+          cooldown: 0
+          sprite: {fileID: 0}
+      sprites:
+      - {fileID: 1628369196, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
+      - {fileID: 1978806391, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
+    spawner:
+      delay: 1
+      startAsteroidsAmount: 10
+      maxAsteroids: 20
+      asteroids:
+      - health: 1
+        minSpeed: 1
+        maxSpeed: 2
+        radius: 0.5
+        asteroidsAfterDestroy: 0100000001000000
+        sprite: {fileID: 1875493051, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
+      - health: 1
+        minSpeed: 2
+        maxSpeed: 4
+        radius: 0.25
+        asteroidsAfterDestroy: 
+        sprite: {fileID: 1141552151, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}

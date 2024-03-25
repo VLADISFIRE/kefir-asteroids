@@ -6,5 +6,7 @@ namespace Gameplay
     public struct SpriteRendererComponent : IComponent
     {
         public Sprite sprite;
+        public Color color;
+        public int layer;
     }
 }

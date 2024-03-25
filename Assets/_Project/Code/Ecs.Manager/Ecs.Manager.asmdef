@@ -1,0 +1,16 @@
+{
+    "name": "Ecs.Manager",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2528f7ef5585435ca637067acc36ccba"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

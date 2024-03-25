@@ -53,6 +53,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Swap Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""64184524-08b7-4c19-a73c-d976fc2d61f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +207,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Rocket Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""225ae8f0-4b74-4aa5-81de-582c78227d21"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Swap Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -786,6 +806,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_RocketThrust = m_Player.FindAction("Rocket Thrust", throwIfNotFound: true);
         m_Player_RocketRotate = m_Player.FindAction("Rocket Rotate", throwIfNotFound: true);
+        m_Player_SwapWeapon = m_Player.FindAction("Swap Weapon", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -862,6 +883,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_RocketThrust;
     private readonly InputAction m_Player_RocketRotate;
+    private readonly InputAction m_Player_SwapWeapon;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -869,6 +891,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @RocketThrust => m_Wrapper.m_Player_RocketThrust;
         public InputAction @RocketRotate => m_Wrapper.m_Player_RocketRotate;
+        public InputAction @SwapWeapon => m_Wrapper.m_Player_SwapWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -887,6 +910,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @RocketRotate.started += instance.OnRocketRotate;
             @RocketRotate.performed += instance.OnRocketRotate;
             @RocketRotate.canceled += instance.OnRocketRotate;
+            @SwapWeapon.started += instance.OnSwapWeapon;
+            @SwapWeapon.performed += instance.OnSwapWeapon;
+            @SwapWeapon.canceled += instance.OnSwapWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -900,6 +926,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @RocketRotate.started -= instance.OnRocketRotate;
             @RocketRotate.performed -= instance.OnRocketRotate;
             @RocketRotate.canceled -= instance.OnRocketRotate;
+            @SwapWeapon.started -= instance.OnSwapWeapon;
+            @SwapWeapon.performed -= instance.OnSwapWeapon;
+            @SwapWeapon.canceled -= instance.OnSwapWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1085,6 +1114,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnRocketThrust(InputAction.CallbackContext context);
         void OnRocketRotate(InputAction.CallbackContext context);
+        void OnSwapWeapon(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

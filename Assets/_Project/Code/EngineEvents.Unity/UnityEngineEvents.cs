@@ -9,6 +9,19 @@ public class UnityEngineEvents : MonoBehaviour, IEngineEventsSource
 
     public event Action<EventType> invoked;
 
+    public float GetDeltaTime(EventType type)
+    {
+        switch (type)
+        {
+            case EventType.Update:
+                return Time.deltaTime;
+            case EventType.FixedUpdate:
+                return Time.fixedDeltaTime;
+        }
+
+        return 0;
+    }
+
     private void Update()
     {
         Invoke(EventType.Update);

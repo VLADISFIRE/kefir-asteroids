@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Utility;
-using UnityEngine;
 
 namespace Infrastructure
 {
@@ -9,8 +8,6 @@ namespace Infrastructure
     {
         private Dictionary<EventType, SubscriptionsContainer> _dictionary;
         private IEngineEventsSource _source;
-
-        public float deltaTime { get { return _source.deltaTime; } }
 
         public EngineEvents(IEngineEventsSource source)
         {
@@ -25,7 +22,7 @@ namespace Infrastructure
         public void Dispose()
         {
             _source.invoked -= HandleEvent;
-            
+
             foreach (var container in _dictionary.Values)
             {
                 container.Dispose();
@@ -51,6 +48,11 @@ namespace Infrastructure
             if (!_dictionary.TryGetValue(type, out var container)) return;
 
             container.Remove(action);
+        }
+
+        public float GetDeltaTime(EventType type)
+        {
+            return _source.GetDeltaTime(type);
         }
 
         private void Populate()

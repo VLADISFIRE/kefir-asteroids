@@ -7,8 +7,8 @@ namespace Initializers.Ecs
     {
         public EcsInitializer(Scope scope)
         {
-            scope.Register<IEcsSystemFactory, EcsSystemFactory>();
-            scope.Register<IEcsManager, EcsManager>();
+            scope.Register<ISystemFactory, SystemFactory>();
+            scope.Register<IEcsManager, EcsManager>().SetDefaultType(EngineType.Fixed);
         }
     }
 }

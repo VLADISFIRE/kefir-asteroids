@@ -12,7 +12,7 @@ namespace Infrastructure
 
     public interface IEngineEvents
     {
-        public float deltaTime { get; }
+        public float GetDeltaTime(EventType type);
 
         public void Subscribe(EventType type, Action action);
         public void Unsubscribe(EventType type, Action action);

@@ -13,9 +13,6 @@ namespace Infrastructure.ECS
 
         public ref Entity this[int index] { get { return ref _pool[index]; } }
 
-        public event Action<Entity> beforeRemoved;
-        public event Action<int> removed;
-
         public World(int capacity = DEFAULT_ENTITY_CAPACITY)
         {
             _pool = new Pool<Entity>(new Policy(), capacity);
@@ -48,16 +45,12 @@ namespace Infrastructure.ECS
         {
             ref var entity = ref _pool[index];
 
-            beforeRemoved?.Invoke(entity);
-
             OnEntityRemovedByMask(index);
             OnEntityRemovedByComponentHolders(index);
 
             _entities.Remove(index);
 
             _pool.Release(index);
-
-            removed?.Invoke(index);
         }
 
         internal void Clear()
@@ -68,11 +61,7 @@ namespace Infrastructure.ECS
             {
                 ref var entity = ref _pool[index];
 
-                beforeRemoved?.Invoke(entity);
-                
                 _pool.Release(index);
-
-                removed?.Invoke(index);
             }
 
             OnClearByMask();

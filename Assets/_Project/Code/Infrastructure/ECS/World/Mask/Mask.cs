@@ -12,7 +12,7 @@ namespace Infrastructure.ECS
         private HashSet<int> _exclude;
 
         public int count { get { return _ids.Count; } }
-        
+
         internal IReadOnlyCollection<int> include { get { return _include; } }
         internal IReadOnlyCollection<int> exclude { get { return _exclude; } }
 
@@ -30,7 +30,7 @@ namespace Infrastructure.ECS
         internal void OnComponentAdded(int id, int hash)
         {
             if (!Has(hash)) return;
-            
+
             if (_ids.Contains(id))
             {
                 if (!_exclude.Contains(hash)) return;
@@ -67,6 +67,11 @@ namespace Infrastructure.ECS
             return _ids.Remove(id);
         }
 
+        internal void Clear()
+        {
+            _ids.Clear();
+        }
+        
         private bool Has(int hash)
         {
             return _include.Contains(hash) || _exclude.Contains(hash);

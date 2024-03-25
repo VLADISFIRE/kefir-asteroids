@@ -5,73 +5,20 @@ namespace Gameplay
 {
     public class SpriteRendererPool : ObjectPool<SpriteRenderer>
     {
-        // private List<SpriteRenderer> _list;
-        //
-        // private int _increment;
-        //
-        // private GameObject _parent;
-        // private int _capacity;
-        //
-        // public SpriteRendererPool(int capacity)
-        // {
-        //     _capacity = capacity;
-        //     _list = new(capacity);
-        // }
-        //
-        // public void Initialize()
-        // {
-        //     _parent = new GameObject("SpriteRendererPool");
-        //     for (int i = 0; i < _capacity; i++)
-        //     {
-        //         var renderer = Create();
-        //         _list.Add(renderer);
-        //     }
-        // }
-        //
-        // public void Dispose()
-        // {
-        //     Object.Destroy(_parent);
-        // }
-        //
-        // public SpriteRenderer Get()
-        // {
-        //     if (_increment >= _list.Count)
-        //     {
-        //         var newRenderer = Create();
-        //         _list.Add(newRenderer);
-        //         _capacity++;
-        //     }
-        //
-        //     var renderer = _list[_increment];
-        //     renderer.gameObject.SetActive(true);
-        //     _increment++;
-        //     return renderer;
-        // }
-        //
-        // public void Release(SpriteRenderer instance)
-        // {
-        //     _list.Add(instance);
-        //     instance.gameObject.SetActive(false);
-        //     _increment--;
-        // }
-        //
-        // private SpriteRenderer Create()
-        // {
-        //     var gameObject = new GameObject($"SpriteRenderer:{_capacity}");
-        //     gameObject.transform.SetParent(_parent.transform);
-        //     var spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-        //     gameObject.SetActive(false);
-        //     return spriteRenderer;
-        // }
-        public SpriteRendererPool() : base(new Policy(), true)
+        public SpriteRendererPool(int capacity) : base(new Policy(), true, capacity: capacity)
         {
         }
 
         public class Policy : DefaultObjectPoolPolicy<SpriteRenderer>
         {
+            private const string NAME = "[ " + nameof(SpriteRendererPool) + " ] {0}";
+
+            private int _count = -1;
+
             public override SpriteRenderer Create()
             {
-                return new GameObject().AddComponent<SpriteRenderer>();
+                _count++;
+                return new GameObject(string.Format(NAME, _count)).AddComponent<SpriteRenderer>();
             }
 
             public override void OnGet(SpriteRenderer obj)

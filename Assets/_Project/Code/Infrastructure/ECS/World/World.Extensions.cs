@@ -11,5 +11,10 @@
         {
             world.RemoveEntity(index);
         }
+        
+        public static void Clear(this World world)
+        {
+            world.Clear();
+        }
     }
 }

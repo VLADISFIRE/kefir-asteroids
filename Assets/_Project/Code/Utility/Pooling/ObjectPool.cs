@@ -7,23 +7,30 @@ namespace Utility.Pooling
     {
         private readonly Stack<T> _items;
         private readonly IObjectPoolPolicy<T> _policy;
+        
         private readonly bool _collectionCheck;
         private readonly int _maxSize;
+        
         private int _numActiveObjects;
         private int _numInactiveObjects;
-
-        public string label { get; set; }
-
+        
         public ObjectPool(
             IObjectPoolPolicy<T> policy,
             bool collectionCheck = false,
-            int defaultCapacity = 0,
+            int capacity = 0,
             int maxSize = 0)
         {
-            _items = defaultCapacity > 0 ? new Stack<T>(defaultCapacity) : new Stack<T>();
+            _items = capacity > 0 ? new Stack<T>(capacity) : new Stack<T>();
             _policy = policy;
             _collectionCheck = collectionCheck;
             _maxSize = maxSize;
+
+            for (int i = 0; i < capacity; i++)
+            {
+                var obj = _policy.Create();
+                _policy.OnReturn(obj);
+                Push(obj);
+            }
         }
 
         public void Dispose()
@@ -75,10 +82,15 @@ namespace Utility.Pooling
             }
             else
             {
-                _items.Push(obj);
-
-                _numInactiveObjects++;
+                Push(obj);
             }
+        }
+        
+        private void Push(T obj)
+        {
+            _items.Push(obj);
+
+            _numInactiveObjects++;
         }
     }
 }

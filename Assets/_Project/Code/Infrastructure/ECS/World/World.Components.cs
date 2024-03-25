@@ -132,6 +132,17 @@ namespace Infrastructure.ECS
             }
         }
 
+        private void OnClearByComponentsHolders()
+        {
+            foreach (var holder in _holders.Values)
+            {
+                foreach (var id in _entities)
+                {
+                    holder.Clear(id);
+                }
+            }
+        }
+
         private void OnResizedByComponents(int capacity)
         {
             foreach (var holder in _holders.Values)

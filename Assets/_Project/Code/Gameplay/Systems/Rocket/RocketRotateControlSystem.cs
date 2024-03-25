@@ -22,7 +22,7 @@ namespace Gameplay
                 if (!rotate.enable) continue;
 
                 var angleSpeed = rotate.speed * deltaTime;
-                movement.angleVelocity += rotate.left ? angleSpeed : -angleSpeed;
+                movement.angleVelocity += rotate.left ? -angleSpeed : angleSpeed;
             }
         }
     }

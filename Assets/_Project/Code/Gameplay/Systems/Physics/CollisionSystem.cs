@@ -3,13 +3,19 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class CollisionSystem : BaseSystem
+    public class CollisionSystem : BaseEventSystem<CollisionEvent>
     {
         private Mask _mask;
+        private ICollisionMatrix _matrix;
 
-        protected override void OnInitialize()
+        public CollisionSystem(ICollisionMatrix matrix)
         {
-            Mask<CollisionComponent, TransformComponent>().Build(out _mask);
+            _matrix = matrix;
+        }
+
+        protected override void OnInitialized()
+        {
+            Mask<ColliderComponent, TransformComponent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -22,6 +28,7 @@ namespace Gameplay
                 var y = -1;
 
                 ref var transform = ref entity.GetComponent<TransformComponent>();
+                ref var collision = ref entity.GetComponent<ColliderComponent>();
 
                 foreach (var entity2 in _mask)
                 {
@@ -33,11 +40,20 @@ namespace Gameplay
                     matrix[y, x] = true;
 
                     ref var transform2 = ref entity2.GetComponent<TransformComponent>();
+                    ref var collision2 = ref entity2.GetComponent<ColliderComponent>();
 
-                    if (Intersect(ref transform.position, ref entity.GetComponent<CollisionComponent>(),
-                            ref transform2.position, ref entity2.GetComponent<CollisionComponent>()))
+                    if (Intersect(ref transform.position, ref collision,
+                            ref transform2.position, ref collision2))
                     {
-                        //InvokeE
+                        entity.SetComponent(new CollisionEvent
+                        {
+                            entity = entity2
+                        });
+
+                        entity2.SetComponent(new CollisionEvent
+                        {
+                            entity = entity
+                        });
                     }
                 }
 
@@ -46,8 +62,8 @@ namespace Gameplay
         }
 
         private bool Intersect(
-            ref Vector2 posA, ref CollisionComponent a,
-            ref Vector2 posB, ref CollisionComponent b)
+            ref Vector2 posA, ref ColliderComponent a,
+            ref Vector2 posB, ref ColliderComponent b)
         {
             if (!Collision(a.layer, b.layer))
                 return false;
@@ -60,9 +76,7 @@ namespace Gameplay
 
         private bool Collision(int layerA, int layerB)
         {
-            if (layerA == CollisionLayer.ASTEROID && layerB == CollisionLayer.ASTEROID) return false;
-            
-            return true;
+            return _matrix.Check(layerA, layerB);
         }
 
         private bool[,] GetRawCheckMatrix(int size)

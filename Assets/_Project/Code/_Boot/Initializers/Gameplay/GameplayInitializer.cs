@@ -33,9 +33,7 @@ namespace Initializers.Gameplay
             ecsManager
                .AddSystem<RocketInputSystem>();
 
-            ecsManager
-               .AddSystem<RocketSpawnSystem>()
-               .AddSystem<AsteroidSpawnerSystem>();
+            scope.Register<ICollisionMatrix, CollisionMatrix>();
 
             ecsManager
                .AddSystem<PhysicsSystem>()
@@ -46,14 +44,38 @@ namespace Initializers.Gameplay
                .AddSystem<RocketEngineSystem>()
                .AddSystem<RocketRotateControlSystem>()
                .AddSystem<RocketVelocityFrictionSystem>()
-               .AddSystem<RocketAngleVelocityFrictionSystem>();
+               .AddSystem<RocketAngleVelocityFrictionSystem>()
+               .AddSystem<RocketWeaponSystem>()
+               .AddSystem<RocketPistolWeaponSystem>();
 
             ecsManager
-               .AddSystem<SpriteRendererSystem>();
+               .AddSystem<DamageCollisionSystem>()
+               .AddSystem<DamageSystem>()
+               .AddSystem<DeathSystem>();
+
+            ecsManager
+               .AddSystem<RocketSpawnSystem>()
+               .AddSystem<AsteroidsSpawnAfterDestroySystem>()
+               .AddSystem<AsteroidsSpawnerSystem>();
 
             ecsManager
                .AddSystem<ScreenPortalSystem>()
                .AddSystem<DestroyScreenOutsidersSystem>();
+
+            ecsManager
+               .AddSystem<DestroySystem>();
+
+            //Render
+            var spriteRendererePool = new SpriteRendererPool(8);
+            scope.RegisterInstance(spriteRendererePool);
+
+            var particlePool = new ParticleSystemPool(scrobject.settings.particle, 8);
+            scope.RegisterInstance(particlePool);
+
+            ecsManager
+               .AddSystem<SpriteRendererSystem>(EngineType.Default)
+               .AddSystem<ParticleRendererSystem>(EngineType.Default)
+               .AddSystem<RocketRenderSystem>(EngineType.Default);
         }
     }
 }

@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Swap Weapon",
+                    "type": "Button",
+                    "id": "64184524-08b7-4c19-a73c-d976fc2d61f9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -176,6 +185,17 @@
                     "action": "Rocket Rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "225ae8f0-4b74-4aa5-81de-582c78227d21",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Swap Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
