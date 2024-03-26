@@ -6,11 +6,14 @@ namespace Infrastructure.ECS
     {
         public void Initialize(World world);
 
+        public void BeforeUpdate();
         public void Update(float deltaTime);
         public void LateUpdate();
 
         public void OnPlayed();
         public void OnStopped();
+
+        internal void SystemUpdate();
     }
 
     public abstract partial class BaseSystem : ISystem
@@ -27,6 +30,17 @@ namespace Infrastructure.ECS
         }
 
         protected virtual void OnDispose()
+        {
+        }
+
+        void ISystem.BeforeUpdate()
+        {
+            if (!initialized) return;
+
+            OnBeforeUpdate();
+        }
+
+        protected virtual void OnBeforeUpdate()
         {
         }
 
@@ -51,6 +65,17 @@ namespace Infrastructure.ECS
         }
 
         protected virtual void OnUpdate(float deltaTime)
+        {
+        }
+
+        void ISystem.SystemUpdate()
+        {
+            if (!initialized) return;
+
+            OnSystemUpdate();
+        }
+
+        protected virtual void OnSystemUpdate()
         {
         }
 

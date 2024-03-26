@@ -1,17 +1,21 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     [CreateAssetMenu(menuName = "Game/UI/Settings", fileName = "UISettings")]
     public class UISettingsScrobject : ScriptableObject
     {
-        public UIWindowsPrefabs windows;
+        [FormerlySerializedAs("windows")]
+        public Prefabs prefabs;
+        
     }
 
     [Serializable]
-    public class UIWindowsPrefabs
+    public class Prefabs
     {
-        public StartWindowLayout start;
+        public GameoverWindowLayout gameOver;
+        public HudLayout hud;
     }
 }

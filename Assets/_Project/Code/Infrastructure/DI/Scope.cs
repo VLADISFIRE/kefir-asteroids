@@ -48,6 +48,16 @@ namespace Infrastructure.DI
             disposed?.Invoke();
         }
 
+        public T Resolve<T>() where T : class
+        {
+            if (TryResolve(typeof(T), out var obj))
+            {
+                return obj as T;
+            }
+
+            return null;
+        }
+
         internal bool TryResolve(Type type, out object obj)
         {
             if (!_objects.TryGetValue(type, out obj))

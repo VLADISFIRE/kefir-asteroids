@@ -19,7 +19,7 @@ MonoBehaviour:
       rotateSpeed: 1
       weapon:
         pistol:
-          cooldown: 0.1
+          cooldown: 0.2
           speed: 13
           offset: 1
           radius: 0.2
@@ -31,20 +31,34 @@ MonoBehaviour:
       sprites:
       - {fileID: 1628369196, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
       - {fileID: 1978806391, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
-    spawner:
+    asteroids:
       delay: 1
-      startAsteroidsAmount: 10
-      maxAsteroids: 18
-      asteroids:
-      - health: 1
+      startAmount: 8
+      maxAmount: 16
+      asteroidVariants:
+      - weight: 80
+        health: 1
         minSpeed: 1
         maxSpeed: 2
         radius: 0.5
         asteroidsAfterDestroy: 0100000001000000
+        score: 1
         sprite: {fileID: 1875493051, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
-      - health: 1
+      - weight: 20
+        health: 1
         minSpeed: 2
         maxSpeed: 4
         radius: 0.25
         asteroidsAfterDestroy: 
+        score: 1
         sprite: {fileID: 1141552151, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
+    ufo:
+      startDelay: 5
+      delay: 5
+      maxAmount: 1
+      info:
+        health: 1
+        radius: 0.4
+        speed: 2.5
+        score: 2
+        sprite: {fileID: -1222456000, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}

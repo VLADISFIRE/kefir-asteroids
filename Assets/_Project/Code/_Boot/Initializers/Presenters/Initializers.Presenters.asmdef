@@ -1,0 +1,4 @@
+﻿{
+  "name": "Initializers.Presenters",
+  "references":[ "GUID:7e6c7b5915114573b2b622ecf10da406", "GUID:88c3f2dbcd5e40279ab2c102d599e34f", "GUID:ebbaf36d929743c0be2201e403454bd1" ]
+}

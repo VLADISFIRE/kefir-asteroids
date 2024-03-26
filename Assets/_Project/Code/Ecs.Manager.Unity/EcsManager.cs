@@ -113,6 +113,14 @@ namespace Infrastructure.ECS
             _engines[type].StopAll();
         }
 
+        public void Restart()
+        {
+            _world.Clear();
+            
+            StopAll();
+            PlayAll();
+        }
+
         public void Stop<T>(EngineType type) where T : BaseSystem
         {
             _engines[type].Stop<T>();

@@ -4,7 +4,7 @@
     {
         public partial struct Enumerator
         {
-            public Entity Current { get { return _mask[_increment]; } }
+            public Entity Current { get { return _mask[_i]; } }
         }
     }
 }

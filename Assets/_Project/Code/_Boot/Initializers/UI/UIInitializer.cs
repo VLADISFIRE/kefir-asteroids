@@ -6,26 +6,30 @@ namespace Initializers.UI
 {
     public class UIInitializer
     {
-        private readonly Scope _scope;
         private const string CONFIG_PATH = "UISettings";
 
         private const string CANVAS_TAG = "Canvas";
 
         public UIInitializer(Scope scope)
         {
-            _scope = new Scope(scope);
-
             var settings = Resources.Load<UISettingsScrobject>(CONFIG_PATH);
 
-            _scope.RegisterInstance(settings);
+            scope.RegisterInstance(settings);
 
             var canvas = GameObject.FindGameObjectWithTag(CANVAS_TAG);
 
-            // var startWindowLayout = Object.Instantiate(settings.windows.start, canvas.transform);
-            //
-            // _scope.RegisterInstance(startWindowLayout);
-            //
-            // _scope.Register<StartWindow>();
+            var gameoverLayout = Object.Instantiate(settings.prefabs.gameOver, canvas.transform);
+            gameoverLayout.gameObject.SetActive(false);
+            scope.RegisterInstance(gameoverLayout);
+
+            scope.Register<GameoverWindow>();
+            
+            
+            var hudLayout = Object.Instantiate(settings.prefabs.hud, canvas.transform);
+            hudLayout.gameObject.SetActive(false);
+            scope.RegisterInstance(hudLayout);
+
+            scope.Register<Hud>();
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         public partial struct Enumerator
         {
-            private int _increment;
+            private int _i;
 
             private readonly Mask _mask;
 
@@ -12,12 +12,12 @@
             {
                 _mask = mask;
 
-                _increment = -1;
+                _i = _mask.count;
             }
 
             public bool MoveNext()
             {
-                return ++_increment < _mask.count;
+                return --_i >= 0;
             }
         }
     }

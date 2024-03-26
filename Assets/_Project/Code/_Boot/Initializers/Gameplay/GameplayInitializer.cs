@@ -1,5 +1,6 @@
 using Gameplay;
 using Gameplay.Render;
+using Gameplay.Ufo;
 using Infrastructure.DI;
 using Infrastructure.ECS;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Initializers.Gameplay
 
         public GameplayInitializer(Scope scope, IEcsManager ecsManager)
         {
-            _scope = new Scope(scope);
+            _scope = scope;
 
             var cameraObj = GameObject.FindGameObjectWithTag(CAMERA_TAG);
 
@@ -38,6 +39,7 @@ namespace Initializers.Gameplay
             ecsManager
                .AddSystem<PhysicsSystem>()
                .AddSystem<CollisionSystem>()
+               .AddSystem<FollowSystem>()
                .AddSystem<MovementSystem>();
 
             ecsManager
@@ -46,6 +48,7 @@ namespace Initializers.Gameplay
                .AddSystem<RocketVelocityFrictionSystem>()
                .AddSystem<RocketAngleVelocityFrictionSystem>()
                .AddSystem<RocketWeaponSystem>()
+               .AddSystem<RocketObserverSystem>()
                .AddSystem<RocketPistolWeaponSystem>();
 
             ecsManager
@@ -56,7 +59,11 @@ namespace Initializers.Gameplay
             ecsManager
                .AddSystem<RocketSpawnSystem>()
                .AddSystem<AsteroidsSpawnAfterDestroySystem>()
+               .AddSystem<UfoSpawnSystem>()
                .AddSystem<AsteroidsSpawnSystem>();
+
+            ecsManager
+               .AddSystem<ScoreSystem>();
 
             ecsManager
                .AddSystem<ScreenPortalSystem>()
@@ -76,6 +83,7 @@ namespace Initializers.Gameplay
                .AddSystem<RocketRenderSystem>(EngineType.Default);
 
             ecsManager
+               .AddSystem<GameoverSystem>()
                .AddSystem<DestroySystem>();
         }
     }

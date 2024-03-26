@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: UISettings
   m_EditorClassIdentifier: 
   windows:
-    start: {fileID: 9222009066413771437, guid: f7442158fc45c2d4882ab81b78a3eefc, type: 3}
+    gameOver: {fileID: 5606924503051462738, guid: 7899a9b339a62f547931db58cf1a6465, type: 3}
+    hud: {fileID: 5112463808514849367, guid: b5f8d5234796d2b44b82066f926b0f5a, type: 3}

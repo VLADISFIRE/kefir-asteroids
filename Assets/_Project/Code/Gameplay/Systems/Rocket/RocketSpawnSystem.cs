@@ -48,19 +48,21 @@ namespace Gameplay
                 type = RocketWeaponType.BULLET
             });
 
-            rocket.SetComponent(new SpriteRendererComponent
-            {
-                sprite = _settings.rocket.sprites[0],
-                layer = 1,
-            });
-
             rocket.SetComponent(new HealthComponent
             {
                 value = 1,
                 maxValue = 1
             });
 
-            rocket.AddComponent<PortalTag, ParticleTag>();
+            rocket.AddComponent<PortalTag, ParticleTag, RocketTag>();
+
+            //Render
+            var sprite = _settings.rocket.sprites[0];
+            rocket.SetComponent(new SpriteRendererComponent
+            {
+                sprite = sprite,
+                layer = 1,
+            });
         }
     }
 }

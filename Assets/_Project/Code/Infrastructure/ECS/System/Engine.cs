@@ -108,6 +108,11 @@ namespace Infrastructure.ECS
         internal void PlayAll()
         {
             _play = true;
+
+            foreach (var system in _activeSystems)
+            {
+                system.OnPlayed();
+            }
         }
 
         internal void StopAll()

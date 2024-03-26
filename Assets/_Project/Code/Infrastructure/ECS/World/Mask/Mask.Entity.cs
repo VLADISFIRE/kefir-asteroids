@@ -2,7 +2,7 @@
 {
     public sealed partial class Mask
     {
-        internal Entity this[int index]
+        public Entity this[int index]
         {
             get
             {

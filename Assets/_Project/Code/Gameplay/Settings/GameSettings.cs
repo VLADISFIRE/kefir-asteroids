@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay
 {
@@ -9,7 +10,11 @@ namespace Gameplay
         public ParticleSystem particle;
 
         public RocketSettings rocket;
-        public SpawnerSettings spawner;
+
+        [FormerlySerializedAs("spawner")]
+        public AsteroidsSpawnSettings asteroids;
+
+        public UfoSpawnSettings ufo;
     }
 
     [Serializable]
@@ -45,25 +50,56 @@ namespace Gameplay
     }
 
     [Serializable]
-    public partial class SpawnerSettings
+    public partial class AsteroidsSpawnSettings
     {
         public float delay = 5;
-        public int startAsteroidsAmount = 5;
-        public int maxAsteroids = 10;
 
-        public AsteroidInfo[] asteroids;
+        [FormerlySerializedAs("startAsteroidsAmount")]
+        public int startAmount = 5;
+
+        [FormerlySerializedAs("maxAsteroids")]
+        public int maxAmount = 10;
+
+        [FormerlySerializedAs("asteroids")]
+        public AsteroidInfo[] asteroidVariants;
     }
 
     [Serializable]
-    public partial struct AsteroidInfo
+    public partial class UfoSpawnSettings
+    {
+        public float startDelay;
+        public float delay;
+        public int maxAmount;
+
+        public UfoInfo info;
+    }
+
+    [Serializable]
+    public partial struct UfoInfo
     {
         public int health;
-        
+        public float radius;
+        public float speed;
+        public int score;
+    }
+
+    [Serializable]
+    public partial struct AsteroidInfo : IWeightable
+    {
+        public int weight;
+
+        [Space]
+        public int health;
+
         public float minSpeed;
         public float maxSpeed;
 
         public float radius;
 
         public int[] asteroidsAfterDestroy;
+
+        public int score;
+
+        int IWeightable.weight { get { return weight; } }
     }
 }

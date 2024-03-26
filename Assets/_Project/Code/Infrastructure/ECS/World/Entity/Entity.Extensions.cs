@@ -29,7 +29,6 @@
 
             return world.Remove<T>(entity.index);
         }
-        
 
         public static void Remove(this Entity entity)
         {
@@ -40,6 +39,8 @@
 
         public static bool IsAlive(this Entity entity)
         {
+            if (entity.world == null) return false;
+
             entity.world.TryGetTarget(out var world);
 
             return world.IsAlive(entity.index);

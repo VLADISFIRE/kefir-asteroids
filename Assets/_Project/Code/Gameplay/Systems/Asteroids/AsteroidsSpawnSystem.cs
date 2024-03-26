@@ -28,25 +28,23 @@ namespace Gameplay
 
         protected override void OnPlayed()
         {
-            for (int i = 0; i < _settings.spawner.startAsteroidsAmount; i++)
+            _t = 0;
+
+            for (int i = 0; i < _settings.asteroids.startAmount; i++)
             {
                 CreateAsteroid();
             }
         }
 
-        private float _test;
-
         protected override void OnUpdate(float deltaTime)
         {
-            _test += deltaTime;
-
             _t += deltaTime;
 
-            if (_t > _settings.spawner.delay)
+            if (_t > _settings.asteroids.delay)
             {
                 _t = 0;
 
-                if (_mask.count >= _settings.spawner.maxAsteroids) return;
+                if (_mask.count >= _settings.asteroids.maxAmount) return;
 
                 CreateAsteroid();
             }
@@ -68,13 +66,18 @@ namespace Gameplay
 
         private void CreateAsteroid(int index = -1, Vector2? position = null)
         {
-            if (index < 0)
+            AsteroidInfo info;
+
+            if (index > 0)
             {
-                index = Random.Range(0, _settings.spawner.asteroids.Length);
+                info = _settings.asteroids.asteroidVariants[index];
+            }
+            else
+            {
+                RollByWeightUtility.TryRollByWeight(_settings.asteroids.asteroidVariants, out info);
             }
 
-            var asteroidInfo = _settings.spawner.asteroids[index];
-            CreateAsteroid(asteroidInfo, position);
+            CreateAsteroid(info, position);
         }
 
         private void CreateAsteroid(AsteroidInfo info, Vector2? position = null)
@@ -109,7 +112,7 @@ namespace Gameplay
             {
                 radius = info.radius,
 
-                layer = CollisionLayer.ASTEROID,
+                layer = CollisionLayer.ENEMY,
             });
 
             var speed = Random.Range(info.minSpeed, info.maxSpeed);
@@ -126,11 +129,6 @@ namespace Gameplay
             {
                 velocity = velocity,
                 angleVelocity = degreeAngleVelocity * Mathf.Deg2Rad
-            });
-
-            entity.SetComponent(new SpriteRendererComponent
-            {
-                sprite = info.sprite,
             });
 
             entity.SetComponent(new HealthComponent
@@ -152,7 +150,18 @@ namespace Gameplay
                 });
             }
 
+            entity.SetComponent(new ScoreComponent
+            {
+                value = info.score
+            });
+
             entity.AddComponent<PortalTag, AsteroidTag, ParticleTag>();
+
+            //Render
+            entity.SetComponent(new SpriteRendererComponent
+            {
+                sprite = info.sprite,
+            });
         }
 
         private bool GetRandomBool()

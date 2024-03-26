@@ -22,9 +22,9 @@ namespace Infrastructure.ECS
 
         protected sealed override void OnSystemUpdate()
         {
-            for (int i = _mask.count; i-- > 0;)
+            foreach (var entity in _mask)
             {
-                _mask[i].RemoveComponent<T>();
+                entity.RemoveComponent<T>();
             }
 
             OnSystemUpdated();
@@ -57,9 +57,9 @@ namespace Infrastructure.ECS
         {
             for (int i = 0; i < _masks.Count; i++)
             {
-                for (int j = _masks[i].count; j-- > 0;)
+                foreach (var entity in _masks[i])
                 {
-                    _masks[i][j].RemoveComponent<T>();
+                    entity.RemoveComponent<T>();
                 }
             }
 
@@ -95,9 +95,9 @@ namespace Infrastructure.ECS
         {
             for (int i = 0; i < _masks.Count; i++)
             {
-                for (int j = _masks[i].count; j-- > 0;)
+                foreach (var entity in _masks[i])
                 {
-                    _masks[i][j].RemoveComponent<T>();
+                    entity.RemoveComponent<T>();
                 }
             }
 

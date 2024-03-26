@@ -26,11 +26,16 @@ namespace Gameplay
         public Sprite sprite;
     }
 
-    public partial class SpawnerSettings
+    public partial class AsteroidsSpawnSettings
     {
     }
 
     public partial struct AsteroidInfo
+    {
+        public Sprite sprite;
+    }
+
+    public partial struct UfoInfo
     {
         public Sprite sprite;
     }

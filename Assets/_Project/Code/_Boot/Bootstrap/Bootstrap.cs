@@ -2,6 +2,7 @@
 using Initializers.Ecs;
 using Initializers.EngineEvents;
 using Initializers.Gameplay;
+using Initializers.Presenters;
 using Initializers.UI;
 using UnityEngine;
 
@@ -19,6 +20,9 @@ public class Bootstrap
         scope.Register<EcsInitializer>();
 
         scope.Register<GameplayInitializer>();
+        
         scope.Register<UIInitializer>();
+
+        scope.Register<PresentersInitializer>();
     }
 }
