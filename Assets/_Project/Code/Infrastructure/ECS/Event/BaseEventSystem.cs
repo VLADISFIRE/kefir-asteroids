@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Infrastructure.ECS
+﻿namespace Infrastructure.ECS
 {
     /// <summary>
     /// Need for deleting one frame component (IEvent)... (one of the options for implementing events)
@@ -39,28 +37,32 @@ namespace Infrastructure.ECS
         where T : struct, IEvent
         where T1 : struct, IEvent
     {
-        private List<Mask> _masks = new();
+        private Mask _mask;
+        private Mask _mask2;
 
         protected sealed override void OnInitialize()
         {
-            _masks.Add(Mask<T>().Build());
-            _masks.Add(Mask<T1>().Build());
+            Mask<T>().Build(out _mask);
+            Mask<T1>().Build(out _mask2);
 
             OnInitialized();
         }
 
         protected virtual void OnInitialized()
         {
+            
         }
 
         protected sealed override void OnSystemUpdate()
         {
-            for (int i = 0; i < _masks.Count; i++)
+            foreach (var entity in _mask)
             {
-                foreach (var entity in _masks[i])
-                {
-                    entity.RemoveComponent<T>();
-                }
+                entity.RemoveComponent<T>();
+            }
+
+            foreach (var entity in _mask2)
+            {
+                entity.RemoveComponent<T1>();
             }
 
             OnSystemUpdated();
@@ -76,13 +78,15 @@ namespace Infrastructure.ECS
         where T1 : struct, IEvent
         where T2 : struct, IEvent
     {
-        private List<Mask> _masks = new();
+        private Mask _mask;
+        private Mask _mask2;
+        private Mask _mask3;
 
         protected sealed override void OnInitialize()
         {
-            _masks.Add(Mask<T>().Build());
-            _masks.Add(Mask<T1>().Build());
-            _masks.Add(Mask<T2>().Build());
+            Mask<T>().Build(out _mask);
+            Mask<T1>().Build(out _mask2);
+            Mask<T2>().Build(out _mask3);
 
             OnInitialized();
         }
@@ -93,12 +97,19 @@ namespace Infrastructure.ECS
 
         protected sealed override void OnSystemUpdate()
         {
-            for (int i = 0; i < _masks.Count; i++)
+            foreach (var entity in _mask)
             {
-                foreach (var entity in _masks[i])
-                {
-                    entity.RemoveComponent<T>();
-                }
+                entity.RemoveComponent<T>();
+            }
+
+            foreach (var entity in _mask2)
+            {
+                entity.RemoveComponent<T1>();
+            }
+
+            foreach (var entity in _mask3)
+            {
+                entity.RemoveComponent<T2>();
             }
 
             OnSystemUpdated();

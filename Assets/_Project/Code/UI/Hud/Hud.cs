@@ -9,8 +9,11 @@ namespace UI
         private HudLayout _layout;
         private ScoreSystem _scoreSystem;
         private RocketObserverSystem _rocketObserverSystem;
+        private RocketLaserWeaponSystem _laserWeaponSystem;
 
-        public Hud(HudLayout layout, ScoreSystem scoreSystem, RocketObserverSystem rocketObserverSystem) : base(layout.gameObject)
+        public Hud(HudLayout layout, ScoreSystem scoreSystem, RocketObserverSystem rocketObserverSystem,
+            RocketLaserWeaponSystem laserWeaponSystem) : base(
+            layout.gameObject)
         {
             _layout = layout;
 
@@ -21,6 +24,10 @@ namespace UI
             _rocketObserverSystem.positionChanged += SetPosition;
             _rocketObserverSystem.rotationChanged += SetRotation;
             _rocketObserverSystem.velocityChanged += SetVelocity;
+
+            _laserWeaponSystem = laserWeaponSystem;
+            _laserWeaponSystem.chargesChanged += SetCharges;
+            _laserWeaponSystem.cooldownChanged += SetCooldown;
         }
 
         public void Dispose()
@@ -30,15 +37,21 @@ namespace UI
             _rocketObserverSystem.positionChanged -= SetPosition;
             _rocketObserverSystem.rotationChanged -= SetRotation;
             _rocketObserverSystem.velocityChanged -= SetVelocity;
+
+            _laserWeaponSystem.chargesChanged -= SetCharges;
+            _laserWeaponSystem.cooldownChanged -= SetCooldown;
         }
 
         protected override void OnShow()
         {
             SetScore(_scoreSystem.score);
-            
+
             SetPosition(_rocketObserverSystem.position);
             SetRotation(_rocketObserverSystem.rotation);
             SetVelocity(_rocketObserverSystem.velocity);
+            
+            SetCharges(_laserWeaponSystem.charges);
+            SetCooldown(_laserWeaponSystem.cooldown);
         }
 
         private void SetPosition(Vector2 position)
@@ -62,6 +75,16 @@ namespace UI
         private void SetScore(int value)
         {
             _layout.score.text = $"Score: {value}";
+        }
+
+        private void SetCooldown(float cooldown)
+        {
+            _layout.cooldown.text = $"Laser Cooldown: {cooldown:F2}";
+        }
+
+        private void SetCharges(int charges)
+        {
+            _layout.charges.text = $"Laser Charges: {charges}";
         }
     }
 }

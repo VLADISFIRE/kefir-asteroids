@@ -31,7 +31,9 @@ namespace Gameplay
             rocket.AddComponent<MovementComponent>();
             rocket.SetComponent(new ColliderComponent()
             {
-                radius = 0.45f
+                radius = 0.45f,
+                
+                layer = CollisionLayer.ROCKET
             });
 
             rocket.SetComponent(new RocketEngineComponent
@@ -41,11 +43,6 @@ namespace Gameplay
             rocket.SetComponent(new RocketRotateControlComponent()
             {
                 speed = _settings.rocket.rotateSpeed,
-            });
-
-            rocket.SetComponent(new RocketWeaponComponent()
-            {
-                type = RocketWeaponType.BULLET
             });
 
             rocket.SetComponent(new HealthComponent

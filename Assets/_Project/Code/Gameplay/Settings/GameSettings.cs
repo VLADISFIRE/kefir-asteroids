@@ -47,6 +47,11 @@ namespace Gameplay
     {
         public int charges;
         public float cooldown;
+        public float chargesCooldown;
+        public float offset;
+        public Vector2 size;
+
+        public int damage = 5;
     }
 
     [Serializable]

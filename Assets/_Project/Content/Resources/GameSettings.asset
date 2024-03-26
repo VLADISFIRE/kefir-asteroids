@@ -25,9 +25,13 @@ MonoBehaviour:
           radius: 0.2
           sprite: {fileID: 41141754, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
         laser:
-          charges: 0
-          cooldown: 0
-          sprite: {fileID: 0}
+          charges: 5
+          cooldown: 0.2
+          chargesCooldown: 3
+          offset: 0.7
+          size: {x: 0.25, y: 20}
+          damage: 5
+          sprite: {fileID: 1861047397, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
       sprites:
       - {fileID: 1628369196, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}
       - {fileID: 1978806391, guid: 5da5ad0df2ecfb5408d6d624bf83eaae, type: 3}

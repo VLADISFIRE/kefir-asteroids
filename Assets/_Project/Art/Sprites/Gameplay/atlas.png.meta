@@ -147,8 +147,8 @@ TextureImporter:
       name: bullet
       rect:
         serializedVersion: 2
-        x: 282
-        y: 464
+        x: 285
+        y: 460
         width: 27
         height: 29
       alignment: 0
@@ -165,32 +165,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: laser
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 460
-        width: 369
-        height: 54
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: de2133639827aae49a582d6a07c79ff4
-      internalID: 1861047397
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ufo
       rect:
         serializedVersion: 2
-        x: 317
-        y: 275
+        x: 320
+        y: 271
         width: 172
         height: 111
       alignment: 0
@@ -542,6 +521,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: laser
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 182
+        width: 54
+        height: 369
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 72, z: 0, w: 70}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 117954d97dc04f14d84b6d1068f738b2
+      internalID: 1861047397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -555,7 +555,6 @@ TextureImporter:
     nameFileIdTable:
       asteroid_big: 1875493051
       asteroid_small: 1141552151
-      atlas_0: -1034063394
       atlas_10: 209749407
       atlas_11: 980918339
       atlas_12: 614431383
@@ -570,7 +569,7 @@ TextureImporter:
       atlas_8: -1941541982
       atlas_9: 1603945482
       bullet: 41141754
-      laser: 1861047397
+      laser: -1034063394
       rocket: 1628369196
       rocket_flame: 1978806391
       ufo: -1222456000

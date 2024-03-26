@@ -8,5 +8,6 @@ namespace Gameplay
         public Sprite sprite;
         public Color color;
         public int layer;
+        public Vector2 size;
     }
 }

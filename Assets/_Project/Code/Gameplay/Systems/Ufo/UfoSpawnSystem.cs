@@ -32,13 +32,13 @@ namespace Gameplay.Ufo
 
         protected override void OnUpdate(float deltaTime)
         {
+            if (_mask.count >= _settings.ufo.maxAmount) return;
+
             _t -= deltaTime;
 
             if (_t <= 0)
             {
                 _t = _settings.ufo.delay;
-
-                if (_mask.count >= _settings.ufo.maxAmount) return;
 
                 CreateUfo();
             }

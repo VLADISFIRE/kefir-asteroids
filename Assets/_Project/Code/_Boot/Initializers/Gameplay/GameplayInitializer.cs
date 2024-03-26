@@ -47,9 +47,9 @@ namespace Initializers.Gameplay
                .AddSystem<RocketRotateControlSystem>()
                .AddSystem<RocketVelocityFrictionSystem>()
                .AddSystem<RocketAngleVelocityFrictionSystem>()
-               .AddSystem<RocketWeaponSystem>()
-               .AddSystem<RocketObserverSystem>()
-               .AddSystem<RocketPistolWeaponSystem>();
+               .AddSystem<RocketPistolWeaponSystem>()
+               .AddSystem<RocketLaserWeaponSystem>()
+               .AddSystem<RocketObserverSystem>();
 
             ecsManager
                .AddSystem<DamageCollisionSystem>()
@@ -70,6 +70,11 @@ namespace Initializers.Gameplay
                .AddSystem<DestroyScreenOutsidersSystem>()
                .AddSystem<SpawnParticleAfterDestroySystem>();
 
+            ecsManager
+               .AddSystem<GameoverSystem>()
+               .AddSystem<DelayDestroySystem>()
+               .AddSystem<DestroySystem>();
+            
             //Render
             var spriteRendererPool = new SpriteRendererPool(8);
             scope.RegisterInstance(spriteRendererPool);
@@ -81,10 +86,6 @@ namespace Initializers.Gameplay
                .AddSystem<ParticleSpawnSystem>()
                .AddSystem<SpriteRendererSystem>(EngineType.Default)
                .AddSystem<RocketRenderSystem>(EngineType.Default);
-
-            ecsManager
-               .AddSystem<GameoverSystem>()
-               .AddSystem<DestroySystem>();
         }
     }
 }
