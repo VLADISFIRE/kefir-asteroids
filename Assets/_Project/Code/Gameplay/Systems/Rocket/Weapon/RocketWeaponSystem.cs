@@ -1,5 +1,4 @@
 ﻿using Infrastructure.ECS;
-using UnityEngine;
 
 namespace Gameplay
 {
