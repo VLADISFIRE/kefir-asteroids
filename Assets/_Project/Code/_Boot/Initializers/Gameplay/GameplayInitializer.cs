@@ -70,11 +70,6 @@ namespace Initializers.Gameplay
                .AddSystem<DestroyScreenOutsidersSystem>()
                .AddSystem<SpawnParticleAfterDestroySystem>();
 
-            ecsManager
-               .AddSystem<GameoverSystem>()
-               .AddSystem<DelayDestroySystem>()
-               .AddSystem<DestroySystem>();
-            
             //Render
             var spriteRendererPool = new SpriteRendererPool(8);
             scope.RegisterInstance(spriteRendererPool);
@@ -86,6 +81,11 @@ namespace Initializers.Gameplay
                .AddSystem<ParticleSpawnSystem>()
                .AddSystem<SpriteRendererSystem>(EngineType.Default)
                .AddSystem<RocketRenderSystem>(EngineType.Default);
+            
+            ecsManager
+              .AddSystem<GameoverSystem>()
+              .AddSystem<DelayDestroySystem>()
+              .AddSystem<DestroySystem>();
         }
     }
 }
