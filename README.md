@@ -1,4 +1,4 @@
-![demo](https://github.com/vladisfire/kefir-asteroids/assets/41682769/dc95fc34-1bf0-4f44-adf1-66eca50acabb)
+![demo](https://github.com/vladisfire/kefir-asteroids/assets/41682769/d4367469-5103-4d1a-88ab-092d2780dc7e)
 
     Задание:
     Необходимо разработать 2D клон оригинальнойигры Asteroids
