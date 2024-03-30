@@ -10,7 +10,7 @@ namespace Gameplay
 
         protected override void OnInitialize()
         {
-            Mask<RocketEngineComponent, MovementComponent>().Build(out _mask);
+            Mask<RocketTag, MovementComponent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)

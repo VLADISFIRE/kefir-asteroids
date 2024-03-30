@@ -9,11 +9,14 @@ namespace UI
         private GameoverWindowLayout _layout;
 
         private IEcsManager _manager;
-        private ScoreSystem _scoreSystem;
+        private PlayerScore _score;
 
-        public GameoverWindow(GameoverWindowLayout layout, IEcsManager manager, ScoreSystem scoreSystem) : base(layout.gameObject)
+        public GameoverWindow(
+            GameoverWindowLayout layout,
+            IEcsManager manager,
+            PlayerScore score) : base(layout.gameObject)
         {
-            _scoreSystem = scoreSystem;
+            _score = score;
             _manager = manager;
             _layout = layout;
 
@@ -27,7 +30,7 @@ namespace UI
 
         protected override void OnShow()
         {
-            _layout.score.text = $"Score: {_scoreSystem.score}";
+            _layout.score.text = $"Score: {_score.value}";
         }
 
         private void HandleButtonClicked()

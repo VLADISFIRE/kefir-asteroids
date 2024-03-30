@@ -7,7 +7,7 @@ namespace Gameplay
     {
         private GameSettings _settings;
 
-        public RocketSpawnSystem(GameSettings settings, GameInput gameInput)
+        public RocketSpawnSystem(GameSettings settings)
         {
             _settings = settings;
         }
@@ -32,7 +32,7 @@ namespace Gameplay
             rocket.SetComponent(new ColliderComponent()
             {
                 radius = 0.45f,
-                
+
                 layer = CollisionLayer.ROCKET
             });
 
@@ -49,6 +49,18 @@ namespace Gameplay
             {
                 value = 1,
                 maxValue = 1
+            });
+
+            rocket.SetComponent(new RocketPistolComponent
+            {
+                settings = _settings.rocket.weapon.pistol
+            });
+            
+            rocket.SetComponent(new RocketLaserComponent()
+            {
+                settings = _settings.rocket.weapon.laser,
+                
+                charges =  _settings.rocket.weapon.laser.charges
             });
 
             rocket.AddComponent<PortalTag, ParticleTag, RocketTag>();

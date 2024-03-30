@@ -1,4 +1,5 @@
 ﻿using Infrastructure.DI;
+using Infrastructure.ECS;
 using UI;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Initializers.UI
 
         private const string CANVAS_TAG = "Canvas";
 
-        public UIInitializer(Scope scope)
+        public UIInitializer(Scope scope, IEcsManager manager)
         {
             var settings = Resources.Load<UISettingsScrobject>(CONFIG_PATH);
 
@@ -23,13 +24,15 @@ namespace Initializers.UI
             scope.RegisterInstance(gameoverLayout);
 
             scope.Register<GameoverWindow>();
-            
-            
+
             var hudLayout = Object.Instantiate(settings.prefabs.hud, canvas.transform);
             hudLayout.gameObject.SetActive(false);
             scope.RegisterInstance(hudLayout);
 
             scope.Register<Hud>();
+
+            manager.AddSystem<HudUISystem>(EngineType.Default);
+            manager.AddSystem<GameoverUISystem>(EngineType.Default);
         }
     }
 }

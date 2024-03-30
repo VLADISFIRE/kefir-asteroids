@@ -6,83 +6,55 @@ namespace UI
 {
     public class Hud : UIElement, IDisposable
     {
-        private HudLayout _layout;
-        private ScoreSystem _scoreSystem;
-        private RocketObserverSystem _rocketObserverSystem;
-        private RocketLaserWeaponSystem _laserWeaponSystem;
+        private PlayerScore _score;
 
-        public Hud(HudLayout layout, ScoreSystem scoreSystem, RocketObserverSystem rocketObserverSystem,
-            RocketLaserWeaponSystem laserWeaponSystem) : base(
+        private HudLayout _layout;
+
+        public Hud(HudLayout layout, PlayerScore score) : base(
             layout.gameObject)
         {
+            _score = score;
             _layout = layout;
 
-            _scoreSystem = scoreSystem;
-            _scoreSystem.scoreChanged += SetScore;
-
-            _rocketObserverSystem = rocketObserverSystem;
-            _rocketObserverSystem.positionChanged += SetPosition;
-            _rocketObserverSystem.rotationChanged += SetRotation;
-            _rocketObserverSystem.velocityChanged += SetVelocity;
-
-            _laserWeaponSystem = laserWeaponSystem;
-            _laserWeaponSystem.chargesChanged += SetCharges;
-            _laserWeaponSystem.cooldownChanged += SetCooldown;
+            SetScore(score.value);
+            _score.updated += SetScore;
         }
 
         public void Dispose()
         {
-            _scoreSystem.scoreChanged -= SetScore;
-
-            _rocketObserverSystem.positionChanged -= SetPosition;
-            _rocketObserverSystem.rotationChanged -= SetRotation;
-            _rocketObserverSystem.velocityChanged -= SetVelocity;
-
-            _laserWeaponSystem.chargesChanged -= SetCharges;
-            _laserWeaponSystem.cooldownChanged -= SetCooldown;
+            _score.updated -= SetScore;
         }
 
-        protected override void OnShow()
-        {
-            SetScore(_scoreSystem.score);
-
-            SetPosition(_rocketObserverSystem.position);
-            SetRotation(_rocketObserverSystem.rotation);
-            SetVelocity(_rocketObserverSystem.velocity);
-            
-            SetCharges(_laserWeaponSystem.charges);
-            SetCooldown(_laserWeaponSystem.cooldown);
-        }
-
-        private void SetPosition(Vector2 position)
+        public void SetPosition(Vector2 position)
         {
             _layout.position.text = $"Position: {position}";
         }
 
-        private void SetRotation(Vector2 rotation)
+        public void SetRotation(Vector2 rotation)
         {
             var angle = Vector2.Angle(rotation, Vector2.up);
             angle = Mathf.Ceil(angle);
             _layout.angle.text = $"Angle: {angle} (deg)";
         }
 
-        private void SetVelocity(Vector2 velocity)
+        public void SetVelocity(Vector2 velocity)
         {
             var magnitude = velocity.magnitude;
             _layout.velocity.text = $"Velocity: {magnitude:F2}";
         }
 
-        private void SetScore(int value)
+        public void SetScore(int value)
         {
             _layout.score.text = $"Score: {value}";
         }
 
-        private void SetCooldown(float cooldown)
+        public void SetCooldown(float cooldown)
         {
+            cooldown = Mathf.Clamp(cooldown, 0, cooldown);
             _layout.cooldown.text = $"Laser Cooldown: {cooldown:F2}";
         }
 
-        private void SetCharges(int charges)
+        public void SetCharges(int charges)
         {
             _layout.charges.text = $"Laser Charges: {charges}";
         }

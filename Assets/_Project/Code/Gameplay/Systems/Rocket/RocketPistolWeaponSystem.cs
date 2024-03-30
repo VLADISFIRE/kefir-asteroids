@@ -6,45 +6,39 @@ namespace Gameplay
     public class RocketPistolWeaponSystem : BaseSystem
     {
         private Mask _mask;
-        private GameSettings _settings;
-
-        private float _t;
-
-        public RocketPistolWeaponSystem(GameSettings settings)
-        {
-            _settings = settings;
-        }
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent, RocketPistolFireEvent>().Build(out _mask);
+            Mask<TransformComponent, RocketPistolComponent, RocketPistolFireEvent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (_t > 0)
-            {
-                _t -= deltaTime;
-                return;
-            }
-
             foreach (var entity in _mask)
             {
+                ref var pistol = ref entity.GetComponent<RocketPistolComponent>();
+
+                if (pistol.cooldown > 0)
+                {
+                    pistol.cooldown -= deltaTime;
+                    continue;
+                }
+
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
-                Fire(transform.position, transform.rotation);
+                Fire(ref pistol, transform.position, transform.rotation);
             }
         }
 
-        private void Fire(Vector2 position, Vector2 direction)
+        private void Fire(ref RocketPistolComponent component, Vector2 position, Vector2 direction)
         {
-            var spawnPosition = position + direction * _settings.rocket.weapon.pistol.offset;
-            CreateBullet(spawnPosition, direction);
+            var spawnPosition = position + direction * component.settings.offset;
+            CreateBullet(component.settings, spawnPosition, direction);
 
-            _t = _settings.rocket.weapon.pistol.cooldown;
+            component.cooldown = component.settings.cooldown;
         }
 
-        private void CreateBullet(Vector2 position, Vector2 direction)
+        private void CreateBullet(PistolSettings settings, Vector2 position, Vector2 direction)
         {
             ref var bullet = ref _world.NewEntity();
 
@@ -52,16 +46,15 @@ namespace Gameplay
             {
                 position = position
             });
-            
 
             bullet.SetComponent(new ColliderComponent
             {
-                radius = _settings.rocket.weapon.pistol.radius,
+                radius = settings.radius,
 
                 layer = CollisionLayer.ROCKET
             });
 
-            var velocity = direction * _settings.rocket.weapon.pistol.speed;
+            var velocity = direction * settings.speed;
             bullet.SetComponent(new MovementComponent
             {
                 velocity = velocity
@@ -69,7 +62,7 @@ namespace Gameplay
 
             bullet.SetComponent(new SpriteRendererComponent
             {
-                sprite = _settings.rocket.weapon.pistol.sprite
+                sprite = settings.sprite
             });
 
             bullet.SetComponent(new DamageCollisionComponent

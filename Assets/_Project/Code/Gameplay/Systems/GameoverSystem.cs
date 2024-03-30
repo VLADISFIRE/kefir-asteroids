@@ -1,39 +1,30 @@
-﻿using System;
-using Infrastructure.ECS;
+﻿using Infrastructure.ECS;
 
 namespace Gameplay
 {
     public class GameoverSystem : BaseSystem
     {
         private Mask _mask;
+        private Gameover _gameover;
 
-        private bool _gameover;
-
-        public event Action<bool> changed;
-        public bool gameover { get { return _gameover; } }
+        public GameoverSystem(Gameover gameover)
+        {
+            _gameover = gameover;
+        }
 
         protected override void OnPlayed()
         {
-            SetGameover(false);
+            _gameover.Set(false);
         }
 
         protected override void OnInitialize()
         {
-            Mask<RocketTag, DestroyEvent>().Build(out _mask);
+            Mask<RocketTag>().Build(out _mask);
         }
 
         protected override void OnLateUpdate()
         {
-            foreach (var _ in _mask)
-            {
-                SetGameover(true);
-            }
-        }
-
-        private void SetGameover(bool value)
-        {
-            _gameover = value;
-            changed?.Invoke(value);
+            _gameover.Set(_mask.count <= 0);
         }
     }
 }

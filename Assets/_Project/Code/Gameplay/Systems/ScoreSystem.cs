@@ -1,19 +1,17 @@
-﻿using System;
-using Infrastructure.ECS;
-using UnityEngine;
+﻿using Infrastructure.ECS;
 
 namespace Gameplay
 {
     public class ScoreSystem : BaseSystem
     {
+        private PlayerScore _playerScore;
+
         private Mask _mask;
-        private Mask _rockets;
 
-        private int _score;
-
-        public int score { get { return _score; } }
-
-        public event Action<int> scoreChanged;
+        public ScoreSystem(PlayerScore playerScore)
+        {
+            _playerScore = playerScore;
+        }
 
         protected override void OnInitialize()
         {
@@ -22,7 +20,7 @@ namespace Gameplay
 
         protected override void OnPlayed()
         {
-            UpdateScore(0);
+            _playerScore.Set(0);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -30,23 +28,12 @@ namespace Gameplay
             foreach (var entity in _mask)
             {
                 ref var destroy = ref entity.GetComponent<DestroyEvent>();
-                
+
                 if (destroy.auto) continue;
 
                 ref var score = ref entity.GetComponent<ScoreComponent>();
-                AddScore(score.value);
+                _playerScore.Add(score.value);
             }
-        }
-
-        private void AddScore(int score)
-        {
-            UpdateScore(_score + score);
-        }
-
-        private void UpdateScore(int value)
-        {
-            _score = value;
-            scoreChanged?.Invoke(_score);
         }
     }
 }

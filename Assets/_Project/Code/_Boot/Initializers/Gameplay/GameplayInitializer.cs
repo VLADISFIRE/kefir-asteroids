@@ -31,6 +31,9 @@ namespace Initializers.Gameplay
 
             scope.Register<IScreen, UnityScreen>();
 
+            scope.Register<PlayerScore>();
+            scope.Register<Gameover>();
+
             ecsManager
                .AddSystem<RocketInputSystem>();
 
@@ -49,7 +52,7 @@ namespace Initializers.Gameplay
                .AddSystem<RocketAngleVelocityFrictionSystem>()
                .AddSystem<RocketPistolWeaponSystem>()
                .AddSystem<RocketLaserWeaponSystem>()
-               .AddSystem<RocketObserverSystem>();
+                ;
 
             ecsManager
                .AddSystem<DamageCollisionSystem>()
@@ -63,7 +66,8 @@ namespace Initializers.Gameplay
                .AddSystem<AsteroidsSpawnSystem>();
 
             ecsManager
-               .AddSystem<ScoreSystem>();
+               .AddSystem<ScoreSystem>()
+               .AddSystem<GameoverSystem>();
 
             ecsManager
                .AddSystem<ScreenPortalSystem>()
@@ -81,11 +85,10 @@ namespace Initializers.Gameplay
                .AddSystem<ParticleSpawnSystem>()
                .AddSystem<SpriteRendererSystem>(EngineType.Default)
                .AddSystem<RocketRenderSystem>(EngineType.Default);
-            
+
             ecsManager
-              .AddSystem<GameoverSystem>()
-              .AddSystem<DelayDestroySystem>()
-              .AddSystem<DestroySystem>();
+               .AddSystem<DelayDestroySystem>()
+               .AddSystem<DestroySystem>();
         }
     }
 }

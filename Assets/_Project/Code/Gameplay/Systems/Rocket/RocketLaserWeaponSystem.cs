@@ -1,6 +1,4 @@
-﻿using System;
-using Gameplay.Utility;
-using Infrastructure.ECS;
+﻿using Infrastructure.ECS;
 using UnityEngine;
 
 namespace Gameplay
@@ -8,83 +6,61 @@ namespace Gameplay
     public class RocketLaserWeaponSystem : BaseSystem
     {
         private Mask _mask;
-        private GameSettings _settings;
-
-        private float _t;
-
-        private float _cooldown;
-        private int _charges;
-
-        public int charges { get { return _charges; } }
-        public float cooldown { get { return _cooldown; } }
-
-        public event Action<int> chargesChanged;
-        public event Action<float> cooldownChanged;
-
-        public RocketLaserWeaponSystem(GameSettings settings)
-        {
-            _settings = settings;
-        }
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent, RocketLaserFireEvent>().Build(out _mask);
-        }
-
-        protected override void OnPlayed()
-        {
-            _t = 0;
-            _cooldown = 0;
-            _charges = _settings.rocket.weapon.laser.charges;
+            Mask<TransformComponent, RocketLaserComponent, RocketLaserFireEvent>().Build(out _mask);
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (_charges < _settings.rocket.weapon.laser.charges)
-            {
-                if (_cooldown > 0)
-                {
-                    RemoveCooldown(deltaTime);
-                }
-                else
-                {
-                    AddCharge();
-
-                    if (_charges < _settings.rocket.weapon.laser.charges)
-                        UpdateCooldown(_settings.rocket.weapon.laser.chargesCooldown);
-                }
-            }
-
-            if (_charges <= 0) return;
-
-            if (_t > 0)
-            {
-                _t -= deltaTime;
-                return;
-            }
-
             foreach (var entity in _mask)
             {
+                ref var laser = ref entity.GetComponent<RocketLaserComponent>();
+                if (laser.charges < laser.settings.charges)
+                {
+                    if (laser.newChargeCooldown > 0)
+                    {
+                        laser.newChargeCooldown -= deltaTime;
+                    }
+                    else
+                    {
+                        laser.charges++;
+
+                        laser.newChargeCooldown = laser.charges < laser.settings.charges ? laser.settings.chargesCooldown : 0;
+                    }
+                }
+
+                if (laser.charges <= 0) continue;
+
+                if (laser.cooldown > 0)
+                {
+                    laser.cooldown -= deltaTime;
+                    continue;
+                }
+
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
-                Fire(transform.position, transform.rotation);
+                Fire(ref laser, transform.position, transform.rotation);
             }
         }
 
-        private void Fire(Vector2 position, Vector2 direction)
+        private void Fire(ref RocketLaserComponent component, Vector2 position, Vector2 direction)
         {
-            var spawnPosition = position + direction * _settings.rocket.weapon.laser.offset;
-            CreateLaser(spawnPosition, direction);
+            var spawnPosition = position + direction * component.settings.offset;
+            CreateLaser(component.settings, spawnPosition, direction);
 
-            if (_charges >= _settings.rocket.weapon.laser.charges)
-                UpdateCooldown(_settings.rocket.weapon.laser.chargesCooldown);
+            if (component.charges >= component.settings.charges)
+            {
+                component.newChargeCooldown = component.settings.chargesCooldown;
+            }
 
-            RemoveCharge();
+            component.charges--;
 
-            _t = _settings.rocket.weapon.laser.cooldown;
+            component.cooldown = component.settings.cooldown;
         }
 
-        private void CreateLaser(Vector2 position, Vector2 direction)
+        private void CreateLaser(LaserSettings settings, Vector2 position, Vector2 direction)
         {
             ref var entity = ref _world.NewEntity();
 
@@ -98,7 +74,7 @@ namespace Gameplay
             {
                 type = ColliderType.Line,
 
-                size = _settings.rocket.weapon.laser.size.y,
+                size = settings.size.y,
                 direction = direction,
 
                 layer = CollisionLayer.ROCKET
@@ -106,46 +82,20 @@ namespace Gameplay
 
             entity.SetComponent(new SpriteRendererComponent
             {
-                sprite = _settings.rocket.weapon.laser.sprite,
-                size = _settings.rocket.weapon.laser.size
+                sprite = settings.sprite,
+                size = settings.size
             });
 
             entity.SetComponent(new DamageCollisionComponent
             {
-                value = _settings.rocket.weapon.laser.damage
+                value = settings.damage
             });
 
             entity.SetComponent(new DelayDestroyComponent
             {
-                time = _settings.rocket.weapon.laser.cooldown
+                time = settings.cooldown
             });
         }
-
-        private void AddCharge()
-        {
-            UpdateCharges(_charges + 1);
-        }
-
-        private void RemoveCharge()
-        {
-            UpdateCharges(_charges - 1);
-        }
-
-        private void UpdateCharges(int value)
-        {
-            _charges = value;
-            chargesChanged?.Invoke(value);
-        }
-
-        private void RemoveCooldown(float deltaTime)
-        {
-            UpdateCooldown(_cooldown - deltaTime);
-        }
-
-        private void UpdateCooldown(float value)
-        {
-            _cooldown = Mathf.Clamp(value, 0, value);
-            cooldownChanged?.Invoke(_cooldown);
-        }
+        
     }
 }
