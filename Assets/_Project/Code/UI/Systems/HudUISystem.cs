@@ -59,7 +59,7 @@ public class HudUISystem : BaseSystem
             ref var laser = ref entity.GetComponent<RocketLaserComponent>();
 
             _hud.SetCharges(laser.charges);
-            _hud.SetCooldown(laser.cooldown);
+            _hud.SetCooldown(laser.newChargeCooldown);
         }
     }
 }

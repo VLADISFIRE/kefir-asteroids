@@ -6,13 +6,21 @@ namespace Gameplay
     public class RocketPistolWeaponSystem : BaseSystem
     {
         private Mask _mask;
+        private Mask _fireMask;
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent, RocketPistolComponent, RocketPistolFireEvent>().Build(out _mask);
+            Mask<TransformComponent, RocketPistolComponent>().Build(out _mask);
+            Mask<TransformComponent, RocketPistolComponent, RocketPistolFireEvent>().Build(out _fireMask);
         }
 
         protected override void OnUpdate(float deltaTime)
+        {
+            UpdateCooldown(deltaTime);
+            Fire();
+        }
+
+        private void UpdateCooldown(float deltaTime)
         {
             foreach (var entity in _mask)
             {
@@ -21,11 +29,19 @@ namespace Gameplay
                 if (pistol.cooldown > 0)
                 {
                     pistol.cooldown -= deltaTime;
-                    continue;
                 }
+            }
+        }
+
+        private void Fire()
+        {
+            foreach (var entity in _fireMask)
+            {
+                ref var pistol = ref entity.GetComponent<RocketPistolComponent>();
+
+                if (pistol.cooldown > 0) continue;
 
                 ref var transform = ref entity.GetComponent<TransformComponent>();
-
                 Fire(ref pistol, transform.position, transform.rotation);
             }
         }

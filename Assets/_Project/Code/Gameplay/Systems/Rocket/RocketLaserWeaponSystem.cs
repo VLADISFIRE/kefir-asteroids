@@ -6,13 +6,21 @@ namespace Gameplay
     public class RocketLaserWeaponSystem : BaseSystem
     {
         private Mask _mask;
+        private Mask _fireMask;
 
         protected override void OnInitialize()
         {
-            Mask<TransformComponent, RocketLaserComponent, RocketLaserFireEvent>().Build(out _mask);
+            Mask<TransformComponent, RocketLaserComponent>().Build(out _mask);
+            Mask<TransformComponent, RocketLaserComponent, RocketLaserFireEvent>().Build(out _fireMask);
         }
 
         protected override void OnUpdate(float deltaTime)
+        {
+            UpdateCooldownAndCharge(deltaTime);
+            Fire();
+        }
+
+        private void UpdateCooldownAndCharge(float deltaTime)
         {
             foreach (var entity in _mask)
             {
@@ -36,8 +44,18 @@ namespace Gameplay
                 if (laser.cooldown > 0)
                 {
                     laser.cooldown -= deltaTime;
-                    continue;
                 }
+            }
+        }
+
+        private void Fire()
+        {
+            foreach (var entity in _fireMask)
+            {
+                ref var laser = ref entity.GetComponent<RocketLaserComponent>();
+
+                if (laser.cooldown > 0) continue;
+                if (laser.charges <= 0) continue;
 
                 ref var transform = ref entity.GetComponent<TransformComponent>();
 
@@ -96,6 +114,5 @@ namespace Gameplay
                 time = settings.cooldown
             });
         }
-        
     }
 }
